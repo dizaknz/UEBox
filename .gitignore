@@ -1,5 +1,16 @@
+# generated with ./setup.sh
 .vscode
-uedemo.code-workspace
+*.code-workspace
+UEBox*.txt
+*.pri
+*.kdev4
+*.pro
+*.workspace
+Makefile
+CMakeCache.txt
+CMakeFiles/
+CMakeLists.txt
+*.cmake
 
 *.slo
 *.lo
@@ -31,6 +42,7 @@ Binaries/*
 Plugins/*/Binaries/*
 
 Build/*
+build/
 
 # white list
 !Build/*/
@@ -46,5 +58,6 @@ Intermediate/*
 Plugins/*/Intermediate/*
 
 DerivedDataCache/*
-!Content/Blueprints
+!Content/Game
 Content/**
+
