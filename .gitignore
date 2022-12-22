@@ -60,4 +60,4 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 !Content/Game
 Content/**
-
+Packaged

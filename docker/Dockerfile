@@ -50,7 +50,7 @@ RUN ${UE_DIRECTORY}/Engine/Build/BatchFiles/RunUAT.sh BuildGraph -target="Make I
       -set:WithDDC=false -set:HostPlatformDDCOnly=true -set:GameConfigurations="Test" \
       -set:BuiltDirectory="/opt/projects/ue-installed"
 
-RUN rm -rf ${UE_DIRECTORY}/*; mv /opt/projects/ue4-installed/Linux/* ${UE_DIRECTORY}/
+RUN rm -rf ${UE_DIRECTORY}/*; mv /opt/projects/ue-installed/Linux/* ${UE_DIRECTORY}/
 WORKDIR ${UE_DIRECTORY}
 
 # Copy UE
