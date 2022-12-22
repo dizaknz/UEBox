@@ -5,18 +5,6 @@
 #include "Containers/Queue.h"
 #include "ImageCapturer.generated.h"
 
-USTRUCT()
-struct FWriteRequest
-{
-    GENERATED_BODY()
-
-    TArray<FColor> Image;
-    FRenderCommandFence RenderFence;
-    FString FileName;
-    int Width;
-    int Height;
-};
-
 UCLASS()
 class AImageCapturer : public AActor
 {
@@ -41,7 +29,7 @@ protected:
     void OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHIRef& backBuffer);
 
 private:
-    TQueue<FWriteRequest*> WriteRequestQueue;
+    TQueue<struct FWriteRequest*> WriteRequestQueue;
     FCriticalSection CriticalSection;
     FTexture2DRHIRef CachedTexture;
     FThreadSafeBool bIsCapturing;
@@ -50,25 +38,4 @@ private:
     // for PIE in preview window we need to differentiate backbuffers
     FThreadSafeBool bHasCapturedMultiple;
 #endif
-};
-
-class FImageWriterTask : public FNonAbandonableTask
-{
-public:
-    FImageWriterTask(TArray<FColor> Image, int Width, int Height, FString FileName);
-    ~FImageWriterTask() = default;
-
-    FORCEINLINE TStatId GetStatId() const
-    {
-        RETURN_QUICK_DECLARE_CYCLE_STAT(FImageWriterTask, STATGROUP_ThreadPoolAsyncTasks);
-    }
-
-protected:
-    TArray<FColor> Image;
-    FString FileName;
-    int ImageWidth = 0;
-    int ImageHeight = 0;
-
-public:
-    void DoWork();
 };
