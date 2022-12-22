@@ -1,0 +1,960 @@
+{
+	"MajorVersion": 4,
+	"MinorVersion": 27,
+	"PatchVersion": 2,
+	"Changelist": 0,
+	"CompatibleChangelist": 17155196,
+	"IsLicenseeVersion": 0,
+	"IsPromotedBuild": 0,
+	"BranchName": "++UE4+Release-4.27"
+}
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.19kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 34B done
+#2 DONE 0.0s
+
+#3 resolve image config for docker.io/docker/dockerfile:1.4.1
+#3 ...
+
+#4 [auth] docker/dockerfile:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 resolve image config for docker.io/docker/dockerfile:1.4.1
+#3 DONE 2.1s
+
+#5 docker-image://docker.io/docker/dockerfile:1.4.1@sha256:91f386bc3ae6cd5585fbd02f811e295b4a7020c23c7691d686830bf6233e91ad
+#5 CACHED
+
+#6 [internal] load build definition from Dockerfile
+#6 DONE 0.0s
+
+#7 [internal] load .dockerignore
+#7 DONE 0.0s
+
+#8 [internal] load metadata for docker.io/library/ubuntu:20.04
+#8 DONE 0.0s
+
+#9 [context ue_source_dir] load .dockerignore
+#9 transferring ue_source_dir: 34B done
+#9 DONE 0.0s
+
+#10 [final 1/7] FROM docker.io/library/ubuntu:20.04
+#10 DONE 0.0s
+
+#11 [final 2/7] RUN adduser --system --group --home /opt/ue ue
+#11 CACHED
+
+#12 [final 3/7] RUN mkdir -p /opt/ue
+#12 CACHED
+
+#13 [final 4/7] RUN chown -R ue:ue /opt/ue
+#13 CACHED
+
+#14 [context ue_source_dir] load from client
+#14 transferring ue_source_dir: 10.71MB 5.1s
+#14 transferring ue_source_dir: 13.54MB 6.4s done
+#14 DONE 6.5s
+
+#15 [builder-source  5/11] RUN chown -R ue:ue /opt/ue
+#15 CACHED
+
+#16 [builder-source  2/11] RUN apt-get update &&     DEBIAN_FRONTEND=noninteractive apt-get install -y       git build-essential xdg-user-dirs xdg-utils       wget curl &&   rm -rf /var/lib/apt/lists/*
+#16 CACHED
+
+#17 [builder-source  3/11] RUN adduser --system --group --home /opt/ue ue
+#17 CACHED
+
+#18 [builder-source  4/11] RUN mkdir -p /opt/ue
+#18 CACHED
+
+#19 [builder-source  8/11] RUN ls -ltr Engine/
+#19 CACHED
+
+#20 [builder-source  6/11] COPY --from=ue_source_dir --chown=ue:ue ./ /opt/ue
+#20 CACHED
+
+#21 [builder-source  7/11] WORKDIR /opt/ue
+#21 CACHED
+
+#22 [builder-source  9/11] RUN bash -c "pushd /opt/ue > /dev/null" && ./Setup.sh && ./GenerateProjectFiles.sh -makefile
+#22 CACHED
+
+#23 [builder-source 10/11] RUN [ "full" = "full" ] && { echo "Performing full engine build"; make StandardSet; } || { echo "Performing minimal engine build"; make RequiredTools; }
+#23 0.258 Performing full engine build
+#23 0.260 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" CrashReportClient Linux Shipping  
+#23 0.432 Fixing inconsistent case in filenames.
+#23 0.433 Setting up Mono
+#23 0.749 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe CrashReportClient Linux Shipping
+#23 1.225 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 1.253 Creating makefile for CrashReportClient (no existing makefile)
+#23 1.894 Creating makefile for UnrealHeaderTool (no existing makefile)
+#23 2.145 ------- Build details --------
+#23 2.145 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 2.145 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 2.145 Using bundled libc++ standard C++ library.
+#23 2.145 Using lld linker
+#23 2.145 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 2.145 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 2.145 ------------------------------
+#23 2.238 Performing 40 actions (20 in parallel)
+#23 2.239 [3/40] Compile BuildSettings.cpp
+#23 2.239 [6/40] Compile Module.UnrealHeaderTool.cpp
+#23 2.239 [5/40] Compile SharedPCH.Core.ShadowErrors.h
+#23 2.239 [1/40] Compile PCH.Core.h
+#23 2.242 [4/40] Compile Module.TraceLog.cpp
+#23 2.244 [2/40] Compile PCH.CoreUObject.h
+#23 2.439 [7/40] Link (lld) libUnrealHeaderTool-BuildSettings.so
+#23 3.541 [8/40] Compile Module.Core.13_of_15.cpp
+#23 3.541 [11/40] Compile Module.Core.15_of_15.cpp
+#23 3.545 [10/40] Compile Module.Core.9_of_15.cpp
+#23 3.545 [16/40] Compile Module.Core.4_of_15.cpp
+#23 3.545 [12/40] Compile Module.Core.14_of_15.cpp
+#23 3.548 [13/40] Compile Module.Core.2_of_15.cpp
+#23 3.550 [14/40] Compile Module.Core.5_of_15.cpp
+#23 3.552 [15/40] Compile Module.Core.11_of_15.cpp
+#23 3.552 [9/40] Compile Module.Core.1_of_15.cpp
+#23 3.554 [20/40] Compile Module.Core.6_of_15.cpp
+#23 3.556 [17/40] Compile Module.Core.8_of_15.cpp
+#23 3.559 [18/40] Compile Module.Core.10_of_15.cpp
+#23 3.560 [19/40] Compile Module.Core.12_of_15.cpp
+#23 4.630 [21/40] Compile Module.Core.7_of_15.cpp
+#23 4.630 [22/40] Compile Module.Core.3_of_15.cpp
+#23 4.632 [23/40] Compile Module.Json.cpp
+#23 5.081 [24/40] Compile Module.Projects.cpp
+#23 5.084 [25/40] Compile Module.CoreUObject.2_of_9.cpp
+#23 6.311 [26/40] Link (lld) libUnrealHeaderTool-TraceLog.so
+#23 17.77 [28/40] Compile Module.CoreUObject.6_of_9.cpp
+#23 17.78 [27/40] Compile Module.CoreUObject.7_of_9.cpp
+#23 19.00 [29/40] Compile Module.CoreUObject.1_of_9.cpp
+#23 22.64 [30/40] Compile Module.CoreUObject.8_of_9.cpp
+#23 26.48 [31/40] Compile Module.CoreUObject.3_of_9.cpp
+#23 27.26 [32/40] Compile Module.CoreUObject.5_of_9.cpp
+#23 27.27 [33/40] Compile Module.CoreUObject.9_of_9.cpp
+#23 27.27 [34/40] Compile Module.CoreUObject.4_of_9.cpp
+#23 44.10 [35/40] Link (lld) libUnrealHeaderTool-Core.so
+#23 46.00 [36/40] Link (lld) libUnrealHeaderTool-Json.so
+#23 46.30 [37/40] Link (lld) libUnrealHeaderTool-Projects.so
+#23 57.03 [38/40] Link (lld) libUnrealHeaderTool-CoreUObject.so
+#23 58.23 [39/40] Link (lld) UnrealHeaderTool
+#23 58.73 [40/40] UnrealBuildTool.exe UnrealHeaderTool.target
+#23 59.03 Total time in Local executor: 56.79 seconds
+#23 59.03 Parsing headers for CrashReportClient
+#23 59.05   Running UnrealHeaderTool CrashReportClient "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/CrashReportClient/Shipping/CrashReportClient.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 59.20 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 59.20 LogInit: Display: Loading text-based GConfig....
+#23 59.43 Reflection code generated for CrashReportClient in 0.3824857 seconds
+#23 59.44 ------- Build details --------
+#23 59.44 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 59.44 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 59.44 Using bundled libc++ standard C++ library.
+#23 59.44 Using lld linker
+#23 59.44 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 59.44 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 59.44 ------------------------------
+#23 59.54 Building CrashReportClient...
+#23 59.54 Performing 72 actions (20 in parallel)
+#23 59.54 [1/72] Compile SharedPCH.Core.ShadowErrors.h
+#23 59.54 [2/72] Compile PCH.Core.h
+#23 59.54 [3/72] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 59.54 [4/72] Compile PCH.CoreUObject.h
+#23 59.54 [5/72] Compile SharedPCH.Slate.ShadowErrors.h
+#23 59.54 [7/72] Compile BuildSettings.cpp
+#23 59.54 [6/72] Compile PCH.ImageWrapper.h
+#23 59.54 [8/72] Compile Module.TraceLog.cpp
+#23 60.44 [9/72] Compile Module.ImageWrapper.gen.cpp
+#23 60.44 [10/72] Compile Module.ImageWrapper.cpp
+#23 60.94 [11/72] Compile Module.CrashReportCore.cpp
+#23 60.94 [12/72] Compile RSA.cpp
+#23 60.94 [13/72] Compile Module.DirectoryWatcher.cpp
+#23 60.94 [14/72] Compile Module.Projects.cpp
+#23 60.95 [15/72] Compile Module.PakFile.cpp
+#23 60.95 [17/72] Compile Module.DesktopPlatform.cpp
+#23 60.96 [16/72] Compile Module.Sockets.cpp
+#23 60.96 [18/72] Compile NetCommonModule.cpp
+#23 60.96 [20/72] Compile Module.CrashDebugHelper.cpp
+#23 60.96 [22/72] Compile Module.ApplicationCore.cpp
+#23 60.96 [24/72] Compile Module.SSL.cpp
+#23 60.97 [23/72] Compile Module.Json.cpp
+#23 60.97 [19/72] Compile Module.AnalyticsET.cpp
+#23 60.97 [21/72] Compile Module.LauncherPlatform.cpp
+#23 62.10 [25/72] Compile Module.SlateCore.gen.cpp
+#23 62.27 [26/72] Compile Module.InputCore.gen.cpp
+#23 62.46 [28/72] Compile Module.SlateCore.1_of_3.cpp
+#23 62.46 [27/72] Compile Module.Slate.2_of_5.cpp
+#23 62.91 [29/72] Compile Module.InputCore.cpp
+#23 63.47 [30/72] Compile Module.SlateCore.3_of_3.cpp
+#23 63.80 [31/72] Compile Module.Slate.gen.cpp
+#23 64.34 [32/72] Compile Module.StandaloneRenderer.cpp
+#23 65.23 [33/72] Compile Module.Slate.1_of_5.cpp
+#23 65.23 [34/72] Compile Module.Slate.5_of_5.cpp
+#23 65.84 [35/72] Compile Module.Slate.4_of_5.cpp
+#23 66.20 [36/72] Compile Module.Slate.3_of_5.cpp
+#23 66.84 [37/72] Compile Module.MessageLog.cpp
+#23 69.35 [38/72] Compile Module.SlateFileDialogs.cpp
+#23 70.29 [39/72] Compile Module.EditorStyle.gen.cpp
+#23 70.36 [40/72] Compile Module.EditorStyle.cpp
+#23 70.36 [41/72] Compile Module.CrashReportClient.cpp
+#23 70.83 [42/72] Compile Module.HTTP.cpp
+#23 71.86 [43/72] Compile Module.XmlParser.cpp
+#23 72.06 [44/72] Compile Analytics.cpp
+#23 73.56 [45/72] Compile Module.SlateCore.2_of_3.cpp
+#23 74.37 [46/72] Compile Module.Core.15_of_15.cpp
+#23 74.67 [47/72] Compile Module.Core.1_of_15.cpp
+#23 74.77 [48/72] Compile Module.CoreUObject.6_of_9.cpp
+#23 75.47 [49/72] Compile Module.CoreUObject.1_of_9.cpp
+#23 77.63 [50/72] Compile Module.CoreUObject.3_of_9.cpp
+#23 78.33 [51/72] Compile Module.Core.13_of_15.cpp
+#23 80.33 [52/72] Compile Module.Core.6_of_15.cpp
+#23 80.53 [53/72] Compile Module.Core.4_of_15.cpp
+#23 81.03 [54/72] Compile Module.Core.3_of_15.cpp
+#23 85.04 [55/72] Compile Module.Core.12_of_15.cpp
+#23 86.64 [56/72] Compile Module.CoreUObject.2_of_9.cpp
+#23 87.24 [57/72] Compile Module.CoreUObject.gen.cpp
+#23 89.04 [59/72] Compile Module.CoreUObject.4_of_9.cpp
+#23 89.04 [58/72] Compile Module.CoreUObject.7_of_9.cpp
+#23 89.44 [60/72] Compile Module.Core.9_of_15.cpp
+#23 91.04 [61/72] Compile Module.Core.10_of_15.cpp
+#23 94.25 [62/72] Compile Module.Core.7_of_15.cpp
+#23 94.55 [63/72] Compile Module.CoreUObject.5_of_9.cpp
+#23 95.75 [64/72] Compile Module.CoreUObject.9_of_9.cpp
+#23 100.5 [65/72] Compile Module.Core.8_of_15.cpp
+#23 101.6 [66/72] Compile Module.CoreUObject.8_of_9.cpp
+#23 103.2 [67/72] Compile Module.Core.11_of_15.cpp
+#23 106.8 [68/72] Compile Module.Core.5_of_15.cpp
+#23 107.3 [69/72] Compile Module.Core.14_of_15.cpp
+#23 108.3 [70/72] Compile Module.Core.2_of_15.cpp
+#23 129.1 [71/72] Link (lld) CrashReportClient
+#23 132.8 [72/72] UnrealBuildTool.exe CrashReportClient-Linux-Shipping.target
+#23 133.1 Total time in Local executor: 73.57 seconds
+#23 133.1 Total execution time: 132.35 seconds
+#23 133.2 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" CrashReportClientEditor Linux Shipping  
+#23 133.4 Fixing inconsistent case in filenames.
+#23 133.4 Setting up Mono
+#23 133.7 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe CrashReportClientEditor Linux Shipping
+#23 134.2 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 134.2 Creating makefile for CrashReportClientEditor (no existing makefile)
+#23 134.9 Parsing headers for CrashReportClientEditor
+#23 134.9   Running UnrealHeaderTool CrashReportClientEditor "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/CrashReportClientEditor/Shipping/CrashReportClientEditor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 135.1 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 135.1 LogInit: Display: Loading text-based GConfig....
+#23 135.3 Reflection code generated for CrashReportClientEditor in 0.4119848 seconds
+#23 135.3 ------- Build details --------
+#23 135.3 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 135.3 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 135.3 Using bundled libc++ standard C++ library.
+#23 135.3 Using lld linker
+#23 135.3 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 135.3 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 135.3 ------------------------------
+#23 135.4 Building CrashReportClientEditor...
+#23 135.4 Performing 74 actions (20 in parallel)
+#23 135.4 [1/74] Compile SharedPCH.Core.ShadowErrors.h
+#23 135.4 [7/74] Compile BuildSettings.cpp
+#23 135.4 [2/74] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 135.4 [8/74] Compile Module.TraceLog.cpp
+#23 135.4 [3/74] Compile PCH.Core.h
+#23 135.4 [6/74] Compile PCH.ImageWrapper.h
+#23 135.5 [4/74] Compile PCH.CoreUObject.h
+#23 135.5 [5/74] Compile SharedPCH.Slate.ShadowErrors.h
+#23 135.9 [9/74] Compile Module.ImageWrapper.gen.cpp
+#23 135.9 [10/74] Compile Module.ImageWrapper.cpp
+#23 136.8 [11/74] Compile Module.Core.3_of_15.cpp
+#23 136.8 [12/74] Compile Module.Core.14_of_15.cpp
+#23 136.9 [13/74] Compile Module.Core.15_of_15.cpp
+#23 136.9 [14/74] Compile Module.Core.13_of_15.cpp
+#23 136.9 [15/74] Compile Module.Core.4_of_15.cpp
+#23 137.0 [17/74] Compile Module.Core.12_of_15.cpp
+#23 137.0 [16/74] Compile Module.Core.10_of_15.cpp
+#23 137.0 [18/74] Compile Module.Core.8_of_15.cpp
+#23 137.8 [19/74] Compile Module.Core.11_of_15.cpp
+#23 137.8 [21/74] Compile Module.Core.1_of_15.cpp
+#23 137.8 [20/74] Compile Module.Core.7_of_15.cpp
+#23 138.4 [22/74] Compile Module.Core.6_of_15.cpp
+#23 138.4 [23/74] Compile Module.Core.5_of_15.cpp
+#23 138.4 [24/74] Compile Module.LauncherPlatform.cpp
+#23 139.7 [25/74] Compile Module.Slate.2_of_5.cpp
+#23 139.7 [26/74] Compile Module.Slate.gen.cpp
+#23 139.7 [27/74] Compile Module.AnalyticsET.cpp
+#23 140.2 [28/74] Compile Module.CrashDebugHelper.cpp
+#23 141.2 [29/74] Compile Module.EditorStyle.gen.cpp
+#23 142.2 [30/74] Compile Module.MessageLog.cpp
+#23 146.2 [31/74] Compile Module.ApplicationCore.cpp
+#23 146.2 [32/74] Compile Module.InputCore.gen.cpp
+#23 146.2 [33/74] Compile RSA.cpp
+#23 146.7 [34/74] Compile Module.SSL.cpp
+#23 147.1 [35/74] Compile Module.Slate.5_of_5.cpp
+#23 147.7 [36/74] Compile Analytics.cpp
+#23 148.5 [37/74] Compile Module.DirectoryWatcher.cpp
+#23 149.4 [38/74] Compile Module.Sockets.cpp
+#23 149.5 [39/74] Compile Module.Slate.1_of_5.cpp
+#23 149.5 [40/74] Compile Module.PakFile.cpp
+#23 149.5 [41/74] Compile Module.SlateCore.3_of_3.cpp
+#23 150.2 [42/74] Compile Module.SlateCore.gen.cpp
+#23 150.7 [43/74] Compile Module.Slate.4_of_5.cpp
+#23 151.2 [44/74] Compile Module.CrashReportCore.cpp
+#23 153.2 [45/74] Compile Module.SlateFileDialogs.cpp
+#23 155.8 [46/74] Compile Module.SlateCore.1_of_3.cpp
+#23 156.4 [47/74] Compile Module.Slate.3_of_5.cpp
+#23 156.4 [48/74] Compile Module.EditorAnalyticsSession.cpp
+#23 157.3 [49/74] Compile Module.StandaloneRenderer.cpp
+#23 159.3 [50/74] Compile Module.EditorStyle.cpp
+#23 160.3 [51/74] Compile Module.Json.cpp
+#23 161.8 [52/74] Compile Module.SlateCore.2_of_3.cpp
+#23 162.5 [53/74] Compile Module.HTTP.cpp
+#23 162.9 [54/74] Compile Module.CrashReportClientEditor.cpp
+#23 163.8 [55/74] Compile NetCommonModule.cpp
+#23 164.8 [56/74] Compile Module.Settings.cpp
+#23 164.8 [57/74] Compile Module.Projects.cpp
+#23 164.9 [58/74] Compile Module.XmlParser.cpp
+#23 165.3 [59/74] Compile Module.InputCore.cpp
+#23 166.3 [60/74] Compile Module.DesktopPlatform.cpp
+#23 169.4 [61/74] Compile Module.CoreUObject.4_of_9.cpp
+#23 169.5 [62/74] Compile Module.CoreUObject.2_of_9.cpp
+#23 171.0 [63/74] Compile Module.CoreUObject.5_of_9.cpp
+#23 171.9 [64/74] Compile Module.CoreUObject.6_of_9.cpp
+#23 173.0 [65/74] Compile Module.CoreUObject.gen.cpp
+#23 173.6 [66/74] Compile Module.CoreUObject.8_of_9.cpp
+#23 174.2 [67/74] Compile Module.CoreUObject.1_of_9.cpp
+#23 176.8 [68/74] Compile Module.CoreUObject.9_of_9.cpp
+#23 177.6 [69/74] Compile Module.CoreUObject.3_of_9.cpp
+#23 177.9 [70/74] Compile Module.CoreUObject.7_of_9.cpp
+#23 178.5 [71/74] Compile Module.Core.9_of_15.cpp
+#23 179.6 [72/74] Compile Module.Core.2_of_15.cpp
+#23 203.4 [73/74] Link (lld) CrashReportClientEditor
+#23 207.2 [74/74] UnrealBuildTool.exe CrashReportClientEditor-Linux-Shipping.target
+#23 207.5 Total time in Local executor: 72.01 seconds
+#23 207.5 Total execution time: 73.77 seconds
+#23 207.6 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" ShaderCompileWorker Linux Development  
+#23 207.6 Fixing inconsistent case in filenames.
+#23 207.6 Setting up Mono
+#23 207.9 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe ShaderCompileWorker Linux Development
+#23 208.4 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 208.4 Creating makefile for ShaderCompileWorker (no existing makefile)
+#23 209.3 Parsing headers for ShaderCompileWorker
+#23 209.3   Running UnrealHeaderTool ShaderCompileWorker "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/ShaderCompileWorker/Development/ShaderCompileWorker.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 209.4 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 209.4 LogInit: Display: Loading text-based GConfig....
+#23 209.6 Reflection code generated for ShaderCompileWorker in 0.3700743 seconds
+#23 209.7 ------- Build details --------
+#23 209.7 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 209.7 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 209.7 Using bundled libc++ standard C++ library.
+#23 209.7 Using lld linker
+#23 209.7 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 209.7 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 209.7 ------------------------------
+#23 209.8 Building ShaderCompileWorker...
+#23 209.8 Performing 105 actions (20 in parallel)
+#23 209.8 [7/105] Compile PCH.ImageWrapper.h
+#23 209.8 [3/105] Compile Module.TraceLog.cpp
+#23 209.8 [1/105] Compile SharedPCH.Core.ShadowErrors.h
+#23 209.8 [5/105] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 209.8 [9/105] Compile Module.ShaderCompileWorker.cpp
+#23 209.8 [4/105] Compile BuildSettings.cpp
+#23 209.8 [6/105] Compile PCH.CoreUObject.h
+#23 209.8 [8/105] Compile SharedPCH.Slate.ShadowErrors.h
+#23 209.8 [2/105] Compile PCH.Core.h
+#23 210.1 [10/105] Link (lld) libShaderCompileWorker-BuildSettings.so
+#23 210.4 [12/105] Compile Module.ImageWrapper.gen.cpp
+#23 210.4 [11/105] Compile Module.ImageWrapper.cpp
+#23 211.3 [14/105] Compile Module.Projects.cpp
+#23 211.3 [21/105] Compile Module.ShaderCompilerCommon.cpp
+#23 211.3 [16/105] Compile Module.GeForceNOWWrapper.cpp
+#23 211.3 [17/105] Compile Module.RHI.cpp
+#23 211.3 [18/105] Compile Module.RenderCore.2_of_3.cpp
+#23 211.3 [13/105] Compile Module.Json.cpp
+#23 211.3 [19/105] Compile Module.RenderCore.1_of_3.cpp
+#23 211.3 [20/105] Compile Module.RenderCore.3_of_3.cpp
+#23 211.3 [15/105] Compile Module.ApplicationCore.cpp
+#23 211.5 [22/105] Compile ShaderPreprocessor.cpp
+#23 211.5 [23/105] Compile Module.DesktopPlatform.cpp
+#23 211.5 [24/105] Compile Module.UELibSampleRate.cpp
+#23 212.2 [25/105] Compile Module.InputCore.gen.cpp
+#23 212.8 [26/105] Compile Module.Core.6_of_15.cpp
+#23 212.9 [27/105] Compile Module.Core.5_of_15.cpp
+#23 213.5 [28/105] Compile Module.Core.2_of_15.cpp
+#23 214.5 [29/105] Compile Module.Core.13_of_15.cpp
+#23 215.5 [30/105] Compile Module.Core.1_of_15.cpp
+#23 216.7 [31/105] Compile Module.Core.3_of_15.cpp
+#23 216.7 [32/105] Compile Module.Core.9_of_15.cpp
+#23 216.7 [33/105] Compile Module.Core.12_of_15.cpp
+#23 217.5 [34/105] Compile Module.Core.11_of_15.cpp
+#23 219.5 [35/105] Compile Module.Core.14_of_15.cpp
+#23 221.0 [36/105] Compile Module.Core.8_of_15.cpp
+#23 222.0 [37/105] Compile Module.Core.15_of_15.cpp
+#23 222.0 [38/105] Compile Module.Core.7_of_15.cpp
+#23 222.5 [39/105] Compile Module.Core.4_of_15.cpp
+#23 224.5 [40/105] Compile Module.Core.10_of_15.cpp
+#23 230.2 [41/105] Link (lld) libShaderCompileWorker-TraceLog.so
+#23 230.6 [42/105] Compile Module.CoreUObject.9_of_9.cpp
+#23 231.7 [43/105] Compile Module.CoreUObject.2_of_9.cpp
+#23 231.7 [44/105] Compile Module.CoreUObject.8_of_9.cpp
+#23 233.5 [45/105] Compile Module.CoreUObject.1_of_9.cpp
+#23 235.1 [46/105] Compile Module.CoreUObject.4_of_9.cpp
+#23 238.4 [47/105] Compile Module.CoreUObject.5_of_9.cpp
+#23 239.0 [48/105] Compile Module.CoreUObject.3_of_9.cpp
+#23 239.9 [49/105] Compile Module.CoreUObject.6_of_9.cpp
+#23 243.4 [50/105] Compile Module.CoreUObject.7_of_9.cpp
+#23 243.7 [51/105] Compile Module.CoreUObject.gen.cpp
+#23 244.6 [52/105] Compile Module.InputCore.cpp
+#23 245.2 [53/105] Compile Module.SlateCore.2_of_3.cpp
+#23 245.4 [54/105] Compile Module.SlateCore.3_of_3.cpp
+#23 245.6 [55/105] Compile Module.SlateCore.1_of_3.cpp
+#23 246.3 [56/105] Compile Module.SlateCore.gen.cpp
+#23 247.5 [57/105] Compile Module.Slate.4_of_5.cpp
+#23 248.2 [58/105] Compile Module.Slate.5_of_5.cpp
+#23 250.0 [59/105] Compile Module.Slate.1_of_5.cpp
+#23 251.8 [60/105] Compile Module.Slate.gen.cpp
+#23 252.6 [61/105] Compile Module.Slate.2_of_5.cpp
+#23 253.8 [62/105] Compile Module.Slate.3_of_5.cpp
+#23 254.1 [63/105] Compile Module.EditorStyle.gen.cpp
+#23 256.2 [64/105] Compile Module.AudioPlatformConfiguration.cpp
+#23 256.7 [65/105] Link (lld) libShaderCompileWorker-Core.so
+#23 258.2 [66/105] Compile Module.AudioPlatformConfiguration.gen.cpp
+#23 258.8 [67/105] Compile Module.LauncherPlatform.cpp
+#23 259.4 [68/105] Compile Module.EditorStyle.cpp
+#23 259.9 [69/105] Compile Module.DirectoryWatcher.cpp
+#23 261.0 [70/105] Link (lld) libShaderCompileWorker-Json.so
+#23 261.2 [71/105] Link (lld) libShaderCompileWorker-ApplicationCore.so
+#23 261.3 [72/105] Link (lld) libShaderCompileWorker-GeForceNOWWrapper.so
+#23 261.6 [73/105] Link (lld) libShaderCompileWorker-Projects.so
+#23 261.7 [74/105] Link (lld) libShaderCompileWorker-UELibSampleRate.so
+#23 262.1 [75/105] Link (lld) libShaderCompileWorker-RHI.so
+#23 262.1 [76/105] Link (lld) libShaderCompileWorker-DesktopPlatform.so
+#23 262.2 [77/105] Compile Module.VectorVM.gen.cpp
+#23 262.9 [78/105] Link (lld) libShaderCompileWorker-RenderCore.so
+#23 263.1 [79/105] Compile IPlatformFileSandboxWrapper.cpp
+#23 264.3 [80/105] Link (lld) libShaderCompileWorker-ShaderCompilerCommon.so
+#23 264.9 [81/105] Link (lld) libShaderCompileWorker-ShaderPreprocessor.so
+#23 265.4 [82/105] Compile Module.VectorVM.cpp
+#23 265.6 [83/105] Compile Module.TargetPlatform.cpp
+#23 266.3 [84/105] Link (lld) libShaderCompileWorker-LauncherPlatform.so
+#23 266.7 [85/105] Compile Module.VulkanShaderFormat.cpp
+#23 270.6 [86/105] Compile Module.SlateFileDialogs.cpp
+#23 274.0 [87/105] Compile Module.ShaderFormatVectorVM.cpp
+#23 275.5 [88/105] Compile Module.ShaderFormatOpenGL.cpp
+#23 275.6 [89/105] Link (lld) libShaderCompileWorker-DirectoryWatcher.so
+#23 275.6 [90/105] Link (lld) libShaderCompileWorker-SandboxFile.so
+#23 285.6 [91/105] Link (lld) libShaderCompileWorker-CoreUObject.so
+#23 287.3 [92/105] Link (lld) libShaderCompileWorker-InputCore.so
+#23 287.3 [93/105] Link (lld) libShaderCompileWorker-ImageWrapper.so
+#23 287.3 [94/105] Link (lld) libShaderCompileWorker-AudioPlatformConfiguration.so
+#23 287.3 [95/105] Link (lld) libShaderCompileWorker-VectorVM.so
+#23 287.6 [96/105] Link (lld) libShaderCompileWorker-SlateCore.so
+#23 287.7 [97/105] Link (lld) libShaderCompileWorker-ShaderFormatVectorVM.so
+#23 288.3 [98/105] Link (lld) libShaderCompileWorker-VulkanShaderFormat.so
+#23 290.4 [99/105] Link (lld) libShaderCompileWorker-ShaderFormatOpenGL.so
+#23 296.3 [100/105] Link (lld) libShaderCompileWorker-Slate.so
+#23 297.3 [102/105] Link (lld) libShaderCompileWorker-SlateFileDialogs.so
+#23 297.3 [101/105] Link (lld) libShaderCompileWorker-EditorStyle.so
+#23 297.6 [103/105] Link (lld) libShaderCompileWorker-TargetPlatform.so
+#23 297.8 [104/105] Link (lld) ShaderCompileWorker
+#23 298.0 [105/105] UnrealBuildTool.exe ShaderCompileWorker.target
+#23 298.3 Total time in Local executor: 88.48 seconds
+#23 298.3 Total execution time: 90.33 seconds
+#23 298.4 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" UnrealLightmass Linux Development  
+#23 298.5 Fixing inconsistent case in filenames.
+#23 298.5 Setting up Mono
+#23 298.8 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe UnrealLightmass Linux Development
+#23 299.1 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 299.1 Creating makefile for UnrealLightmass (no existing makefile)
+#23 299.7 Parsing headers for UnrealLightmass
+#23 299.8   Running UnrealHeaderTool UnrealLightmass "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/UnrealLightmass/Development/UnrealLightmass.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 299.9 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 299.9 LogInit: Display: Loading text-based GConfig....
+#23 300.0 Reflection code generated for UnrealLightmass in 0.2825354 seconds
+#23 300.1 ------- Build details --------
+#23 300.1 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 300.1 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 300.1 Using bundled libc++ standard C++ library.
+#23 300.1 Using lld linker
+#23 300.1 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 300.1 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 300.1 ------------------------------
+#23 300.1 Building UnrealLightmass...
+#23 300.1 Performing 66 actions (20 in parallel)
+#23 300.1 [7/66] Compile Module.UnrealLightmass.3_of_3.cpp
+#23 300.1 [9/66] Compile Module.UnrealLightmass.1_of_3.cpp
+#23 300.1 [1/66] Compile PCH.Core.h
+#23 300.1 [3/66] Compile PCH.CoreUObject.h
+#23 300.1 [2/66] Compile SharedPCH.Core.ShadowErrors.h
+#23 300.1 [4/66] Compile Module.TraceLog.cpp
+#23 300.1 [8/66] Compile Module.UnrealLightmass.2_of_3.cpp
+#23 300.1 [10/66] Copy AgentInterface.dll
+#23 300.1 [6/66] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 300.2 [5/66] Compile BuildSettings.cpp
+#23 301.6 [13/66] Compile Module.Core.13_of_15.cpp
+#23 301.6 [11/66] Compile Module.Core.3_of_15.cpp
+#23 301.6 [12/66] Compile Module.Core.10_of_15.cpp
+#23 301.7 [15/66] Compile Module.Core.11_of_15.cpp
+#23 301.7 [14/66] Compile Module.Core.12_of_15.cpp
+#23 301.7 [16/66] Compile Module.Core.9_of_15.cpp
+#23 301.9 [17/66] Compile Module.Core.8_of_15.cpp
+#23 301.9 [18/66] Compile Module.Core.14_of_15.cpp
+#23 301.9 [19/66] Compile Module.Core.2_of_15.cpp
+#23 302.7 [20/66] Compile Module.Core.4_of_15.cpp
+#23 302.7 [22/66] Compile Module.Core.5_of_15.cpp
+#23 302.7 [21/66] Compile Module.Core.15_of_15.cpp
+#23 303.8 [23/66] Compile Module.Core.6_of_15.cpp
+#23 304.3 [24/66] Compile Module.Core.1_of_15.cpp
+#23 304.8 [25/66] Compile Module.Core.7_of_15.cpp
+#23 305.3 [26/66] Link (lld) libUnrealLightmass-BuildSettings.so
+#23 305.8 [27/66] Link (lld) libUnrealLightmass-TraceLog.so
+#23 308.3 [28/66] Compile Module.Json.cpp
+#23 309.3 [29/66] Compile Module.Projects.cpp
+#23 312.3 [30/66] Compile NetCommonModule.cpp
+#23 313.3 [31/66] Compile Module.CoreUObject.5_of_9.cpp
+#23 318.4 [32/66] Compile Module.CoreUObject.2_of_9.cpp
+#23 318.4 [34/66] Compile Module.CoreUObject.7_of_9.cpp
+#23 318.4 [33/66] Compile Module.CoreUObject.8_of_9.cpp
+#23 319.8 [35/66] Compile Module.CoreUObject.1_of_9.cpp
+#23 321.8 [36/66] Compile Module.CoreUObject.3_of_9.cpp
+#23 322.8 [37/66] Compile Module.CoreUObject.gen.cpp
+#23 324.1 [38/66] Compile Module.CoreUObject.6_of_9.cpp
+#23 326.7 [39/66] Compile Module.CoreUObject.9_of_9.cpp
+#23 327.0 [40/66] Compile Module.CoreUObject.4_of_9.cpp
+#23 329.8 [41/66] Compile Module.Sockets.cpp
+#23 330.9 [42/66] Compile Module.Networking.cpp
+#23 331.3 [43/66] Compile Module.Cbor.cpp
+#23 331.6 [44/66] Compile Module.Serialization.gen.cpp
+#23 332.0 [45/66] Compile Module.Messaging.cpp
+#23 332.3 [46/66] Compile Module.Serialization.cpp
+#23 333.4 [47/66] Compile Module.SwarmInterface.cpp
+#23 336.1 [48/66] Compile Module.ApplicationCore.cpp
+#23 336.7 [49/66] Compile Module.SwarmInterface.gen.cpp
+#23 338.4 [50/66] Compile Module.UdpMessaging.gen.cpp
+#23 338.7 [51/66] Compile Module.UdpMessaging.cpp
+#23 345.6 [52/66] Link (lld) libUnrealLightmass-Core.so
+#23 348.1 [53/66] Link (lld) libUnrealLightmass-Json.so
+#23 348.1 [54/66] Link (lld) libUnrealLightmass-NetCommon.so
+#23 348.1 [55/66] Link (lld) libUnrealLightmass-Cbor.so
+#23 348.1 [56/66] Link (lld) libUnrealLightmass-ApplicationCore.so
+#23 348.4 [57/66] Link (lld) libUnrealLightmass-Sockets.so
+#23 348.5 [58/66] Link (lld) libUnrealLightmass-Projects.so
+#23 348.8 [59/66] Link (lld) libUnrealLightmass-Networking.so
+#23 360.4 [60/66] Link (lld) libUnrealLightmass-CoreUObject.so
+#23 361.7 [61/66] Link (lld) libUnrealLightmass-Serialization.so
+#23 361.7 [62/66] Link (lld) libUnrealLightmass-Messaging.so
+#23 361.7 [63/66] Link (lld) libUnrealLightmass-SwarmInterface.so
+#23 362.0 [64/66] Link (lld) libUnrealLightmass-UdpMessaging.so
+#23 362.3 [65/66] Link (lld) UnrealLightmass
+#23 362.7 [66/66] UnrealBuildTool.exe UnrealLightmass.target
+#23 363.0 Total time in Local executor: 62.91 seconds
+#23 363.1 Total execution time: 64.27 seconds
+#23 363.1 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" UnrealFrontend Linux Development  
+#23 363.3 Fixing inconsistent case in filenames.
+#23 363.3 Setting up Mono
+#23 363.6 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe UnrealFrontend Linux Development
+#23 364.0 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 364.1 Creating makefile for UnrealFrontend (no existing makefile)
+#23 364.7 Parsing headers for UnrealFrontend
+#23 364.7   Running UnrealHeaderTool UnrealFrontend "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/UnrealFrontend/Development/UnrealFrontend.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 364.8 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 364.8 LogInit: Display: Loading text-based GConfig....
+#23 365.1 Reflection code generated for UnrealFrontend in 0.4474852 seconds
+#23 365.2 ------- Build details --------
+#23 365.2 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 365.2 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 365.2 Using bundled libc++ standard C++ library.
+#23 365.2 Using lld linker
+#23 365.2 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 365.2 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 365.2 ------------------------------
+#23 365.3 Building UnrealFrontend...
+#23 365.3 Performing 245 actions (20 in parallel)
+#23 365.3 [2/245] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 365.3 [1/245] Compile SharedPCH.Core.ShadowErrors.h
+#23 365.3 [5/245] Compile BuildSettings.cpp
+#23 365.3 [7/245] Compile SharedPCH.Slate.ShadowErrors.h
+#23 365.3 [6/245] Compile PCH.CoreUObject.h
+#23 365.3 [4/245] Compile Module.TraceLog.cpp
+#23 365.3 [9/245] Compile Module.UnrealFrontend.cpp
+#23 365.4 [8/245] Compile PCH.ImageWrapper.h
+#23 365.4 [3/245] Compile PCH.Core.h
+#23 366.2 [10/245] Link (lld) libUnrealFrontend-BuildSettings.so
+#23 366.8 [11/245] Compile Module.ImageWrapper.cpp
+#23 366.8 [12/245] Compile Module.ImageWrapper.gen.cpp
+#23 367.0 [14/245] Compile Module.Core.12_of_15.cpp
+#23 367.0 [13/245] Compile Module.Core.6_of_15.cpp
+#23 367.0 [15/245] Compile Module.Core.13_of_15.cpp
+#23 367.8 [16/245] Compile Module.Core.8_of_15.cpp
+#23 367.8 [17/245] Compile Module.Core.11_of_15.cpp
+#23 367.8 [18/245] Compile Module.Core.15_of_15.cpp
+#23 367.9 [19/245] Compile Module.Core.9_of_15.cpp
+#23 367.9 [20/245] Compile Module.Core.1_of_15.cpp
+#23 367.9 [21/245] Compile Module.Core.2_of_15.cpp
+#23 368.1 [22/245] Compile Module.Core.3_of_15.cpp
+#23 368.1 [23/245] Compile Module.Core.7_of_15.cpp
+#23 368.1 [24/245] Compile Module.Core.14_of_15.cpp
+#23 368.7 [25/245] Compile Module.Core.4_of_15.cpp
+#23 368.9 [26/245] Compile Module.Core.10_of_15.cpp
+#23 368.9 [27/245] Compile Module.Core.5_of_15.cpp
+#23 368.9 [28/245] Link (lld) libUnrealFrontend-TraceLog.so
+#23 369.7 [29/245] Compile Module.Json.cpp
+#23 371.2 [30/245] Compile Module.Projects.cpp
+#23 371.7 [31/245] Compile Module.CoreUObject.9_of_9.cpp
+#23 383.7 [32/245] Compile Module.CoreUObject.7_of_9.cpp
+#23 384.2 [33/245] Compile Module.CoreUObject.5_of_9.cpp
+#23 384.7 [34/245] Compile Module.CoreUObject.8_of_9.cpp
+#23 385.7 [35/245] Compile Module.CoreUObject.1_of_9.cpp
+#23 386.7 [36/245] Compile Module.CoreUObject.6_of_9.cpp
+#23 389.2 [37/245] Compile Module.CoreUObject.3_of_9.cpp
+#23 389.2 [38/245] Compile Module.CoreUObject.4_of_9.cpp
+#23 389.2 [39/245] Compile Module.CoreUObject.2_of_9.cpp
+#23 389.5 [40/245] Compile Module.CoreUObject.gen.cpp
+#23 389.7 [41/245] Compile Module.ApplicationCore.cpp
+#23 390.2 [42/245] Compile Module.InputCore.gen.cpp
+#23 394.2 [43/245] Compile Module.InputCore.cpp
+#23 395.7 [45/245] Compile Module.SlateCore.2_of_3.cpp
+#23 395.7 [44/245] Compile Module.SlateCore.3_of_3.cpp
+#23 397.2 [46/245] Compile Module.SlateCore.gen.cpp
+#23 397.7 [47/245] Compile Module.SlateCore.1_of_3.cpp
+#23 399.3 [48/245] Compile Module.Slate.2_of_5.cpp
+#23 399.4 [49/245] Compile Module.Slate.gen.cpp
+#23 399.6 [50/245] Compile Module.Slate.4_of_5.cpp
+#23 401.7 [51/245] Compile Module.Slate.3_of_5.cpp
+#23 403.3 [52/245] Compile Module.Slate.5_of_5.cpp
+#23 407.3 [53/245] Compile Module.Slate.1_of_5.cpp
+#23 408.8 [54/245] Compile Module.DesktopPlatform.cpp
+#23 409.1 [55/245] Compile Module.EditorStyle.gen.cpp
+#23 410.5 [56/245] Link (lld) libUnrealFrontend-Core.so
+#23 411.1 [57/245] Compile Module.EditorStyle.cpp
+#23 413.2 [58/245] Compile Module.UELibSampleRate.cpp
+#23 413.2 [59/245] Compile Module.LauncherPlatform.cpp
+#23 414.4 [60/245] Compile Module.AudioPlatformConfiguration.gen.cpp
+#23 415.2 [61/245] Link (lld) libUnrealFrontend-Json.so
+#23 415.7 [62/245] Link (lld) libUnrealFrontend-Projects.so
+#23 416.4 [63/245] Link (lld) libUnrealFrontend-ApplicationCore.so
+#23 417.3 [64/245] Compile Module.AudioPlatformConfiguration.cpp
+#23 417.4 [65/245] Compile Module.TargetPlatform.cpp
+#23 418.6 [66/245] Link (lld) libUnrealFrontend-UELibSampleRate.so
+#23 419.1 [67/245] Link (lld) libUnrealFrontend-LauncherPlatform.so
+#23 419.5 [68/245] Compile NetCommonModule.cpp
+#23 420.4 [69/245] Compile Module.GeForceNOWWrapper.cpp
+#23 420.7 [70/245] Compile Module.RHI.cpp
+#23 421.7 [71/245] Compile Module.Sockets.cpp
+#23 422.4 [72/245] Link (lld) libUnrealFrontend-DesktopPlatform.so
+#23 422.7 [73/245] Link (lld) libUnrealFrontend-GeForceNOWWrapper.so
+#23 422.8 [74/245] Link (lld) libUnrealFrontend-NetCommon.so
+#23 423.2 [76/245] Compile Module.RenderCore.3_of_3.cpp
+#23 423.2 [75/245] Compile Module.RenderCore.1_of_3.cpp
+#23 423.3 [77/245] Compile Module.JsonUtilities.cpp
+#23 424.9 [78/245] Compile Module.RenderCore.2_of_3.cpp
+#23 427.9 [79/245] Compile Module.JsonUtilities.gen.cpp
+#23 428.0 [80/245] Compile Module.MessageLog.cpp
+#23 428.9 [81/245] Compile UnrealEdMessages.init.gen.cpp
+#23 429.7 [82/245] Compile FileServerMessages.gen.cpp
+#23 430.4 [83/245] Link (lld) libUnrealFrontend-Sockets.so
+#23 430.9 [84/245] Compile UnrealEdMessagesModule.cpp
+#23 431.3 [85/245] Compile AssetEditorMessages.gen.cpp
+#23 431.5 [86/245] Compile Module.AssetRegistry.gen.cpp
+#23 431.7 [87/245] Compile AutomationMessagesModule.cpp
+#23 431.9 [88/245] Compile AutomationMessages.init.gen.cpp
+#23 432.2 [89/245] Compile AutomationWorkerMessages.gen.cpp
+#23 432.3 [90/245] Compile Module.SSL.cpp
+#23 433.0 [91/245] Compile Module.AssetRegistry.cpp
+#23 433.1 [92/245] Compile ImageCore.cpp
+#23 433.3 [93/245] Compile Module.ScreenShotComparisonTools.cpp
+#23 434.3 [94/245] Compile Module.HTTP.cpp
+#23 434.5 [95/245] Compile Module.ScreenShotComparisonTools.gen.cpp
+#23 435.2 [96/245] Link (lld) libUnrealFrontend-SSL.so
+#23 435.7 [97/245] Compile ProfilerMessages.init.gen.cpp
+#23 436.2 [98/245] Compile Module.AutomationController.cpp
+#23 437.1 [99/245] Compile SessionMessagesModule.cpp
+#23 437.2 [100/245] Compile SessionServiceMessages.gen.cpp
+#23 437.9 [101/245] Compile WorkspaceMenuStructureModule.cpp
+#23 438.3 [102/245] Compile Module.AutomationController.gen.cpp
+#23 438.4 [103/245] Compile Module.Cbor.cpp
+#23 438.9 [104/245] Compile Module.DirectoryWatcher.cpp
+#23 439.3 [105/245] Compile ProfilerServiceMessages.gen.cpp
+#23 441.0 [106/245] Compile ProfilerMessagesModule.cpp
+#23 442.3 [107/245] Compile SessionMessages.init.gen.cpp
+#23 442.4 [108/245] Link (lld) libUnrealFrontend-ImageCore.so
+#23 442.8 [109/245] Compile EngineMessages.init.gen.cpp
+#23 443.3 [110/245] Compile EngineServiceMessages.gen.cpp
+#23 443.5 [111/245] Compile Module.SourceControl.gen.cpp
+#23 444.2 [112/245] Link (lld) libUnrealFrontend-CoreUObject.so
+#23 444.2 [113/245] Compile Module.Settings.cpp
+#23 444.9 [114/245] Compile EngineMessagesModule.cpp
+#23 445.0 [115/245] Compile Module.Serialization.cpp
+#23 445.5 [116/245] Compile ShaderPreprocessor.cpp
+#23 446.2 [117/245] Compile Module.Networking.cpp
+#23 446.4 [118/245] Link (lld) libUnrealFrontend-HTTP.so
+#23 447.1 [119/245] Compile Module.DesktopWidgets.cpp
+#23 447.5 [120/245] Compile Module.Serialization.gen.cpp
+#23 447.7 [121/245] Link (lld) libUnrealFrontend-ImageWrapper.so
+#23 448.2 [122/245] Link (lld) libUnrealFrontend-InputCore.so
+#23 448.2 [123/245] Link (lld) libUnrealFrontend-AudioPlatformConfiguration.so
+#23 448.3 [124/245] Link (lld) libUnrealFrontend-JsonUtilities.so
+#23 448.5 [125/245] Link (lld) libUnrealFrontend-UnrealEdMessages.so
+#23 448.6 [126/245] Link (lld) libUnrealFrontend-AutomationMessages.so
+#23 448.7 [127/245] Link (lld) libUnrealFrontend-SlateCore.so
+#23 448.9 [128/245] Link (lld) libUnrealFrontend-SessionMessages.so
+#23 448.9 [129/245] Link (lld) libUnrealFrontend-ProfilerMessages.so
+#23 448.9 [130/245] Compile Module.SourceControl.cpp
+#23 449.1 [131/245] Compile Module.ShaderCompilerCommon.cpp
+#23 449.3 [132/245] Compile Module.ProfilerClient.cpp
+#23 449.4 [133/245] Link (lld) libUnrealFrontend-Cbor.so
+#23 449.8 [134/245] Link (lld) libUnrealFrontend-EngineMessages.so
+#23 450.2 [135/245] Link (lld) libUnrealFrontend-Networking.so
+#23 450.3 [136/245] Compile PIEPreviewDeviceSpecification.cpp
+#23 450.6 [137/245] Link (lld) libUnrealFrontend-Settings.so
+#23 450.7 [138/245] Compile Module.ScreenShotComparison.cpp
+#23 451.0 [139/245] Compile Module.Profiler.cpp
+#23 453.1 [140/245] Compile Module.AutomationWindow.gen.cpp
+#23 453.3 [141/245] Compile PIEPreviewDeviceSpecification.gen.cpp
+#23 453.5 [142/245] Compile Module.AutomationWindow.cpp
+#23 454.3 [143/245] Link (lld) libUnrealFrontend-DirectoryWatcher.so
+#23 454.7 [144/245] Compile PIEPreviewDeviceSpecification.init.gen.cpp
+#23 455.0 [145/245] Compile Module.SourceCodeAccess.gen.cpp
+#23 455.1 [146/245] Compile Module.SessionServices.cpp
+#23 457.4 [147/245] Compile Module.SourceCodeAccess.cpp
+#23 457.5 [148/245] Compile Module.Messaging.cpp
+#23 457.5 [149/245] Link (lld) libUnrealFrontend-PIEPreviewDeviceSpecification.so
+#23 458.0 [150/245] Compile Module.OutputLog.cpp
+#23 458.5 [151/245] Compile Module.VectorVM.gen.cpp
+#23 459.1 [153/245] Compile IOSMessageProtocol.gen.cpp
+#23 459.1 [152/245] Compile Module.VectorVM.cpp
+#23 461.7 [154/245] Compile Module.TcpMessaging.gen.cpp
+#23 461.9 [155/245] Compile Module.TcpMessaging.cpp
+#23 462.6 [156/245] Compile Module.ProjectLauncher.cpp
+#23 462.7 [157/245] Link (lld) libUnrealFrontend-SessionServices.so
+#23 463.2 [158/245] Compile Module.TargetDeviceServices.cpp
+#23 463.5 [159/245] Link (lld) libUnrealFrontend-Serialization.so
+#23 463.6 [160/245] Link (lld) libUnrealFrontend-ProfilerClient.so
+#23 464.2 [161/245] Link (lld) libUnrealFrontend-RHI.so
+#23 464.3 [162/245] Compile Module.LauncherServices.cpp
+#23 464.3 [163/245] Compile Module.StandaloneRenderer.cpp
+#23 464.8 [164/245] Compile Module.TargetDeviceServices.gen.cpp
+#23 464.9 [165/245] Compile UnixCommonStartup.cpp
+#23 465.2 [166/245] Compile Module.UdpMessaging.gen.cpp
+#23 466.3 [167/245] Compile TextureFormatIntelISPCTexComp.cpp
+#23 468.6 [168/245] Compile AndroidDeviceDetectionModule.cpp
+#23 468.8 [169/245] Link (lld) libUnrealFrontend-Slate.so
+#23 469.2 [170/245] Compile LaunchDaemonMessages.init.gen.cpp
+#23 469.5 [171/245] Compile Module.UdpMessaging.cpp
+#23 469.6 [172/245] Compile Module.DeviceManager.cpp
+#23 470.1 [173/245] Compile LaunchDaemonMessagesModule.cpp
+#23 470.4 [174/245] Compile Module.SessionFrontend.cpp
+#23 470.8 [175/245] Link (lld) libUnrealFrontend-TcpMessaging.so
+#23 471.4 [176/245] Link (lld) libUnrealFrontend-TextureFormatIntelISPCTexComp.so
+#23 471.4 [177/245] Compile LinuxServerTargetPlatformModule.cpp
+#23 471.6 [178/245] Link (lld) libUnrealFrontend-EditorStyle.so
+#23 471.8 [179/245] Link (lld) libUnrealFrontend-DesktopWidgets.so
+#23 471.9 [180/245] Link (lld) libUnrealFrontend-SourceCodeAccess.so
+#23 472.1 [181/245] Link (lld) libUnrealFrontend-Messaging.so
+#23 472.3 [182/245] Link (lld) libUnrealFrontend-TargetPlatform.so
+#23 472.3 [183/245] Link (lld) libUnrealFrontend-MessageLog.so
+#23 472.3 [184/245] Link (lld) libUnrealFrontend-ScreenShotComparisonTools.so
+#23 472.7 [185/245] Link (lld) libUnrealFrontend-WorkspaceMenuStructure.so
+#23 472.8 [187/245] Link (lld) libUnrealFrontend-LaunchDaemonMessages.so
+#23 472.8 [186/245] Link (lld) libUnrealFrontend-StandaloneRenderer.so
+#23 472.9 [188/245] Link (lld) libUnrealFrontend-UnixCommonStartup.so
+#23 473.2 [189/245] Link (lld) libUnrealFrontend-SourceControl.so
+#23 473.2 [190/245] Compile Module.LinuxTargetPlatform.gen.cpp
+#23 473.3 [191/245] Compile TextureFormatASTC.cpp
+#23 473.3 [192/245] Compile Module.SlateReflector.gen.cpp
+#23 473.7 [193/245] Compile TextureFormatUncompressed.cpp
+#23 473.8 [194/245] Compile Module.AndroidTargetPlatform.cpp
+#23 474.5 [195/245] Compile Module.AllDesktopTargetPlatform.cpp
+#23 474.7 [196/245] Link (lld) libUnrealFrontend-TargetDeviceServices.so
+#23 474.8 [197/245] Compile LinuxAArch64ServerTargetPlatformModule.cpp
+#23 475.3 [198/245] Compile LinuxAArch64ClientTargetPlatformModule.cpp
+#23 475.4 [199/245] Compile Module.SlateReflector.cpp
+#23 475.8 [200/245] Link (lld) libUnrealFrontend-AndroidDeviceDetection.so
+#23 476.0 [201/245] Link (lld) libUnrealFrontend-RenderCore.so
+#23 476.1 [202/245] Compile Module.SlateFileDialogs.cpp
+#23 476.3 [203/245] Compile TextureFormatDXT.cpp
+#23 476.6 [204/245] Compile LinuxNoEditorTargetPlatformModule.cpp
+#23 477.6 [205/245] Link (lld) libUnrealFrontend-ShaderCompilerCommon.so
+#23 477.7 [206/245] Link (lld) libUnrealFrontend-ShaderPreprocessor.so
+#23 477.9 [207/245] Compile LinuxAArch64NoEditorTargetPlatformModule.cpp
+#23 478.2 [208/245] Compile LinuxClientTargetPlatformModule.cpp
+#23 478.2 [209/245] Compile Module.VulkanShaderFormat.cpp
+#23 478.4 [210/245] Compile Module.ShaderFormatVectorVM.cpp
+#23 478.4 [211/245] Compile Module.LinuxTargetPlatform.cpp
+#23 478.6 [212/245] Compile TextureFormatPVR.cpp
+#23 479.0 [213/245] Compile Module.ShaderFormatOpenGL.cpp
+#23 479.8 [214/245] Link (lld) libUnrealFrontend-TextureFormatDXT.so
+#23 480.2 [215/245] Link (lld) libUnrealFrontend-AllDesktopTargetPlatform.so
+#23 480.5 [216/245] Link (lld) libUnrealFrontend-AndroidTargetPlatform.so
+#23 480.6 [217/245] Link (lld) libUnrealFrontend-LinuxAArch64ServerTargetPlatform.so
+#23 480.7 [218/245] Link (lld) libUnrealFrontend-VectorVM.so
+#23 481.0 [219/245] Link (lld) libUnrealFrontend-LinuxAArch64ClientTargetPlatform.so
+#23 481.0 [220/245] Link (lld) libUnrealFrontend-TextureFormatASTC.so
+#23 481.1 [221/245] Link (lld) libUnrealFrontend-LinuxAArch64NoEditorTargetPlatform.so
+#23 481.2 [222/245] Link (lld) libUnrealFrontend-LinuxServerTargetPlatform.so
+#23 481.3 [223/245] Link (lld) libUnrealFrontend-LinuxNoEditorTargetPlatform.so
+#23 481.4 [224/245] Link (lld) libUnrealFrontend-LinuxClientTargetPlatform.so
+#23 481.4 [225/245] Link (lld) libUnrealFrontend-TextureFormatPVR.so
+#23 481.5 [226/245] Link (lld) libUnrealFrontend-TextureFormatUncompressed.so
+#23 482.1 [227/245] Link (lld) libUnrealFrontend-LauncherServices.so
+#23 483.0 [228/245] Link (lld) libUnrealFrontend-LinuxTargetPlatform.so
+#23 485.1 [229/245] Link (lld) libUnrealFrontend-AssetRegistry.so
+#23 485.9 [230/245] Link (lld) libUnrealFrontend-AutomationController.so
+#23 485.9 [231/245] Link (lld) libUnrealFrontend-OutputLog.so
+#23 486.4 [232/245] Link (lld) libUnrealFrontend-ScreenShotComparison.so
+#23 487.5 [233/245] Link (lld) libUnrealFrontend-UdpMessaging.so
+#23 489.0 [234/245] Link (lld) libUnrealFrontend-ShaderFormatVectorVM.so
+#23 493.5 [235/245] Link (lld) libUnrealFrontend-ShaderFormatOpenGL.so
+#23 494.3 [236/245] Link (lld) libUnrealFrontend-SlateFileDialogs.so
+#23 494.5 [237/245] Link (lld) libUnrealFrontend-VulkanShaderFormat.so
+#23 500.9 [238/245] Link (lld) libUnrealFrontend-AutomationWindow.so
+#23 515.7 [239/245] Link (lld) libUnrealFrontend-DeviceManager.so
+#23 520.4 [240/245] Link (lld) libUnrealFrontend-ProjectLauncher.so
+#23 539.9 [241/245] Link (lld) libUnrealFrontend-Profiler.so
+#23 540.6 [242/245] Link (lld) libUnrealFrontend-SessionFrontend.so
+#23 541.0 [243/245] Link (lld) UnrealFrontend
+#23 543.9 [244/245] Link (lld) libUnrealFrontend-SlateReflector.so
+#23 544.5 [245/245] UnrealBuildTool.exe UnrealFrontend.target
+#23 544.8 Total time in Local executor: 179.50 seconds
+#23 544.9 Total execution time: 181.23 seconds
+#23 545.0 bash "/opt/ue/Engine/Build/BatchFiles/Linux/Build.sh" UE4Editor Linux Development  
+#23 545.1 Fixing inconsistent case in filenames.
+#23 545.1 Setting up Mono
+#23 545.4 Running command : Engine/Binaries/DotNET/UnrealBuildTool.exe UE4Editor Linux Development
+#23 545.7 Using 'git status' to determine working set for adaptive non-unity build (/opt/ue).
+#23 545.8 Creating makefile for UE4Editor (no existing makefile)
+#23 547.4 Parsing headers for UE4Editor
+#23 547.4   Running UnrealHeaderTool UE4Editor "/opt/ue/Engine/Intermediate/Build/Linux/B4D820EA/UE4Editor/Development/UE4Editor.uhtmanifest" -LogCmds="loginit warning, logexit warning, logdatabase error" -Unattended -WarningsAsErrors -abslog="/opt/ue/Engine/Programs/UnrealBuildTool/Log_UHT.txt"
+#23 547.6 Looking for binary: ../../../Engine/Programs/UnrealHeaderTool/Config/BinaryConfig.ini
+#23 547.6 LogInit: Display: Loading text-based GConfig....
+#23 556.8 Reflection code generated for UE4Editor in 9.3405077 seconds
+#23 556.8 ------- Build details --------
+#23 556.8 Using toolchain located at '/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu'.
+#23 556.8 Using clang (/opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/clang++) version '11.0.1' (string), 11 (major), 0 (minor), 1 (patch)
+#23 556.8 Using bundled libc++ standard C++ library.
+#23 556.8 Using lld linker
+#23 556.8 Using llvm-ar : /opt/ue/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/v19_clang-11.0.1-centos7/x86_64-unknown-linux-gnu/bin/llvm-ar
+#23 556.8 Using fast way to relink  circularly dependent libraries (no FixDeps).
+#23 556.8 ------------------------------
+#23 562.7 Building UE4Editor...
+#23 562.8 Performing 3040 actions (20 in parallel)
+#23 562.8 [1/3040] Compile SharedPCH.UnrealEd.ShadowErrors.h
+#23 562.8 [10/3040] Compile AnimEncoding_VariableKeyLerp.ispc
+#23 562.8 [11/3040] Compile SkeletalMeshComponent.ispc
+#23 562.8 [4/3040] Compile SharedPCH.Core.ShadowErrors.h
+#23 562.8 [9/3040] Compile KAggregateGeom.ispc
+#23 562.8 [12/3040] Compile AnimationRuntime.ispc
+#23 562.8 [18/3040] Compile PCH.ImageWrapper.h
+#23 562.8 [20/3040] Compile PBDJointSolverGaussSeidel.ispc
+#23 562.8 [6/3040] Compile BuildSettings.cpp
+#23 562.8 [19/3040] Compile PCH.UnrealEd.h
+#23 562.8 [3/3040] Compile SharedPCH.CoreUObject.ShadowErrors.h
+#23 562.8 [8/3040] Compile PCH.CoreUObject.h
+#23 562.8 [2/3040] Compile SharedPCH.Engine.ShadowErrors.h
+#23 562.8 [17/3040] Compile SharedPCH.Slate.ShadowErrors.h
+#23 562.8 [5/3040] Compile PCH.Core.h
+#23 562.8 [7/3040] Compile Module.TraceLog.cpp
+#23 562.8 [13/3040] Compile AnimEncoding_PerTrackCompression.ispc
+#23 562.8 [14/3040] Compile GPUSkinVertexFactory.ispc
+#23 562.8 [16/3040] Compile AnimEncoding_ConstantKeyLerp.ispc
+#23 562.8 [15/3040] Compile BonePose.ispc
+#23 567.1 [21/3040] Compile Module.Json.cpp
+#23 568.0 [22/3040] Compile Module.ApplicationCore.cpp
+#23 568.5 [23/3040] Compile Module.DesktopPlatform.cpp
+#23 569.5 [24/3040] Compile Module.Core.2_of_15.cpp
+#23 570.0 [25/3040] Compile Module.Core.1_of_15.cpp
+#23 570.1 [26/3040] Compile Module.Core.9_of_15.cpp
+#23 571.0 [27/3040] Compile Module.Core.3_of_15.cpp
+#23 571.0 [28/3040] Compile Module.Core.4_of_15.cpp
+#23 571.0 [29/3040] Compile Module.Core.15_of_15.cpp
+#23 571.5 [30/3040] Compile Module.Core.8_of_15.cpp
+#23 575.0 [31/3040] Compile Module.Core.7_of_15.cpp
+#23 575.5 [32/3040] Compile Module.Core.13_of_15.cpp
+#23 576.0 [33/3040] Compile Module.Core.12_of_15.cpp
+#23 576.5 [34/3040] Compile Module.Core.6_of_15.cpp
+#23 577.0 [35/3040] Compile Module.Core.11_of_15.cpp
+#23 577.2 [36/3040] Compile Module.Core.10_of_15.cpp
+#23 577.3 [38/3040] Compile Module.Core.14_of_15.cpp
+#23 577.3 [37/3040] Compile Module.Core.5_of_15.cpp
+#23 578.0 [39/3040] Link (lld) libUE4Editor-TraceLog.so
+#23 579.5 [40/3040] Link (lld) libUE4Editor-BuildSettings.so
+#23 582.0 [41/3040] Compile Module.Projects.cpp
+#23 583.7 [43/3040] Compile Module.CoreUObject.9_of_9.cpp
+#23 583.7 [42/3040] Compile Module.CoreUObject.gen.cpp
+#23 584.2 [44/3040] Compile Module.CoreUObject.1_of_9.cpp
+#23 585.5 [45/3040] Compile Module.CoreUObject.2_of_9.cpp
+#23 586.5 [46/3040] Compile Module.CoreUObject.8_of_9.cpp
+#23 587.9 [47/3040] Compile Module.CoreUObject.3_of_9.cpp
+#23 588.5 [48/3040] Compile Module.CoreUObject.6_of_9.cpp
+#23 589.7 [49/3040] Compile Module.CoreUObject.7_of_9.cpp
+#23 597.0 [50/3040] Compile Module.CoreUObject.4_of_9.cpp
+#23 598.5 [51/3040] Compile Module.CoreUObject.5_of_9.cpp
+#23 605.0 [60/3040] Compile PCH.Engine.h
+#23 605.3 [61/3040] Compile Module.ImageWrapper.gen.cpp
+#23 609.2 [62/3040] Compile Module.ImageWrapper.cpp
+#23 610.2 [63/3040] Compile Module.InputCore.gen.cpp
+#23 611.0 [64/3040] Compile Module.InputCore.cpp
+#23 611.7 [65/3040] Compile Module.SlateCore.1_of_3.cpp
+#23 614.4 [66/3040] Compile Module.SlateCore.3_of_3.cpp
+#23 615.0 [67/3040] Compile Module.SlateCore.gen.cpp
+#23 617.0 [68/3040] Compile Module.SlateCore.2_of_3.cpp
+#23 618.0 [69/3040] Compile Module.Slate.2_of_5.cpp
+#23 619.7 [70/3040] Compile Module.Slate.3_of_5.cpp
+#23 620.6 [71/3040] Compile Module.Slate.gen.cpp
+#23 621.3 [72/3040] Compile Module.Slate.5_of_5.cpp
+#23 625.2 [73/3040] Compile Module.Slate.1_of_5.cpp
+#23 625.7 [74/3040] Compile Module.Slate.4_of_5.cpp
+#23 626.0 [75/3040] Compile NetCommonModule.cpp
+#23 626.2 [76/3040] Link (lld) libUE4Editor-Core.so
+#23 627.1 [77/3040] Compile Module.Sockets.cpp
+#23 628.6 [78/3040] Compile Module.EditorStyle.gen.cpp
+#23 629.1 [79/3040] Compile Module.EditorStyle.cpp
+#23 629.3 [80/3040] Compile Module.SSL.cpp
+#23 631.7 [81/3040] Link (lld) libUE4Editor-Json.so
+#23 632.4 [82/3040] Link (lld) libUE4Editor-ApplicationCore.so
+#23 632.4 [83/3040] Link (lld) libUE4Editor-NetCommon.so
+#23 632.5 [84/3040] Compile Module.UELibSampleRate.cpp
+#23 632.7 [85/3040] Link (lld) libUE4Editor-SSL.so
+#23 632.8 [86/3040] Compile Module.AudioPlatformConfiguration.gen.cpp
+#23 633.4 [87/3040] Link (lld) libUE4Editor-DesktopPlatform.so
+#23 633.4 [88/3040] Compile Module.AudioPlatformConfiguration.cpp
+#23 634.3 [89/3040] Link (lld) libUE4Editor-Projects.so
+#23 635.0 [90/3040] Compile Module.LauncherPlatform.cpp
+#23 636.1 [91/3040] Compile Module.TargetPlatform.cpp
+#23 636.3 [92/3040] Link (lld) libUE4Editor-LauncherPlatform.so
+#23 636.4 [93/3040] Compile Module.HTTP.cpp
+#23 636.7 [94/3040] Compile RSA.cpp
+#23 636.8 [95/3040] Link (lld) libUE4Editor-Sockets.so
+#23 637.3 [96/3040] Compile Module.GeForceNOWWrapper.cpp
+#23 638.2 [97/3040] Link (lld) libUE4Editor-RSA.so
+#23 638.2 [98/3040] Compile Module.PakFile.cpp
+#23 638.4 [99/3040] Link (lld) libUE4Editor-UELibSampleRate.so
+#23 638.5 [100/3040] Compile Module.RHI.cpp
+#23 638.8 [101/3040] Link (lld) libUE4Editor-GeForceNOWWrapper.so
+#23 638.9 [102/3040] Compile Module.DerivedDataCache.cpp
+#23 639.2 [103/3040] Compile Module.PakFileUtilities.cpp
+#23 640.0 [104/3040] Compile PerParticlePBDCollisionConstraint.ispc
+#23 642.9 [105/3040] Compile PBDSphericalConstraint.ispc
+#23 644.7 [106/3040] Compile PBDSpringConstraints.ispc
+#23 647.5 [107/3040] Compile PBDMinEvolution.ispc
+#23 650.1 [108/3040] Compile VelocityField.ispc
+#23 650.3 [109/3040] Compile PerParticleDampVelocity.ispc
+#23 650.9 [110/3040] Compile PBDLongRangeConstraints.ispc
+#23 652.3 [111/3040] Compile PBDCollisionConstraints.ispc
+#23 653.3 [112/3040] Link (lld) libUE4Editor-HTTP.so
+#23 654.0 [113/3040] Compile PBDAxialSpringConstraints.ispc
+#23 655.5 [114/3040] Compile TriangleMesh.ispc
+#23 655.5 [115/3040] Compile AABB.ispc
+#23 655.7 [116/3040] Compile Module.Networking.cpp
+#23 655.8 [117/3040] Compile Module.RenderCore.2_of_3.cpp
+#23 657.8 [118/3040] Compile Module.RenderCore.1_of_3.cpp
+#23 658.4 [119/3040] Compile Module.RenderCore.3_of_3.cpp
+#23 658.6 [120/3040] Link (lld) libUE4Editor-DerivedDataCache.so
+#23 659.0 [121/3040] Compile ImageCore.cpp
+#23 659.1 [122/3040] Link (lld) libUE4Editor-Networking.so
+#23 660.3 [131/3040] Compile Module.SignalProcessing.cpp
+#23 660.4 [132/3040] Compile Module.MeshUtilitiesCommon.cpp
+#23 660.6 [133/3040] Compile Module.UnrealEd.17_of_23.cpp
+#23 660.9 [135/3040] Link (lld) libUE4Editor-PakFile.so
+#23 661.0 [137/3040] Compile Module.UnrealEd.8_of_23.cpp
+#23 661.2 [139/3040] Compile Module.UnrealEd.gen.7_of_11.cpp
+#23 661.5 [140/3040] Compile Module.UnrealEd.gen.8_of_11.cpp
+#23 661.6 [141/3040] Compile Module.UnrealEd.7_of_23.cpp
+#23 662.1 [142/3040] Link (lld) libUE4Editor-ImageCore.so
+#23 662.6 [143/3040] Compile Module.UnrealEd.18_of_23.cpp
+ERROR: failed to receive status: rpc error: code = Unavailable desc = error reading from server: EOF
