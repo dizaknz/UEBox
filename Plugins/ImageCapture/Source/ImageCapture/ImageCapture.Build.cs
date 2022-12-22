@@ -10,7 +10,6 @@ public class ImageCapture : ModuleRules
 		
 		PrivateIncludePaths.AddRange(
 			new string[] {
-				"Private"
 			}
 		);
 			
@@ -19,6 +18,9 @@ public class ImageCapture : ModuleRules
 			new string[]
 			{
 				"Core",
+				"RenderCore",
+				"ImageWrapper",
+				"RHI"
 			}
 		);
 			
@@ -29,7 +31,7 @@ public class ImageCapture : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore",
+				"SlateCore"
 			}
 		);
 		
