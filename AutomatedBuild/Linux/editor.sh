@@ -15,15 +15,15 @@ EOF
 
 while getopts 'u:h' c; do
     case $c in
-        u) ue4=$OPTARG ;;
+        u) ueDir=$OPTARG ;;
         h) usage && exit 0 ;;
     esac
 done
 
-[ -n "$ue4" -a -d "$ue4" ] || {
+[ -n "$ueDir" -a -d "$ueDir" ] || {
     echo "ERROR: provide a valid UE4 installation directory"
     usage
     exit 1
 }
 
-$ue4/Engine/Binaries/Linux/UE4Editor "$BIN/../../UEBox.uproject" "$@"
+$ueDir/Engine/Binaries/Linux/UE4Editor "$BIN/../../UEBox.uproject" "$@"
