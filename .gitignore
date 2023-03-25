@@ -62,4 +62,4 @@ Content/Collections
 Content/Developers
 
 .vs*
-
+*.sln
