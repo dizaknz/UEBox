@@ -32,7 +32,6 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
 	int32 GridSize;
 
-	UPROPERTY()
 	FCaptureStartEvent CaptureStartEvent;
 
 	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))

@@ -118,18 +118,22 @@ void UGridCaptureTool::GenerateGridPoints()
 	float MinY = Center.Y - Extent.Y;
 	float MaxY = Center.Y + Extent.Y;
 
-	int32 NumGridX = FGenericPlatformMath::CeilToInt(MaxX - MinX);
-	int32 NumGridY = FGenericPlatformMath::CeilToInt(MaxY - MinY);
+	int32 NumGridX = FGenericPlatformMath::CeilToInt((MaxX - MinX)/Properties->GridSize);
+	int32 NumGridY = FGenericPlatformMath::CeilToInt((MaxY - MinY)/Properties->GridSize);
+
+	UE_LOG(LogTemp, Log, TEXT("Grid size [%d, %d]"), NumGridX, NumGridY);
 
 	UNavigationSystemV1* NavSystem = Cast< UNavigationSystemV1>(TargetWorld->GetNavigationSystem());
 	if (bFoundNavMesh)
 	{
 		check(NavSystem);
 	}
-	for (int XY = 0; XY < (NumGridX - 1) * (NumGridY - 1); XY++)
+	for (int XY = 0; XY < (NumGridX * NumGridY); XY++)
 	{
 		int X = XY % NumGridX;
 		int Y = XY % NumGridY;
+
+		UE_LOG(LogTemp, Log, TEXT("XY=%d X=%d Y=%d"), XY, X, Y);
 
 		FVector GridPoint(
 			(MinX + (Properties->GridSize / 2) + (X * Properties->GridSize)),
@@ -143,6 +147,7 @@ void UGridCaptureTool::GenerateGridPoints()
 			// FIXME
 			if (NavSystem->ProjectPointToNavigation(GridPoint, NavLocation, Extent))
 			{
+				UE_LOG(LogTemp, Log, TEXT("Found position on navmesh: [%g, %g, %g]"), NavLocation.Location.X, NavLocation.Location.Y, NavLocation.Location.Z);
 				GridPoints.Add(NavLocation);
 			}
 			continue;
@@ -154,6 +159,8 @@ void UGridCaptureTool::GenerateGridPoints()
 			GridPoints.Add(GridPoint);
 		}
 	}
+
+	UE_LOG(LogTemp, Log, TEXT("Generated %d of grid points"), GridPoints.Num());
 	
 }
 
@@ -165,6 +172,7 @@ void UGridCaptureTool::Capture()
 	FVector Scale(1, 1, 1);
 	FRotator Rotator(0, 0, 0);
 	int32 ID = 0;
+
 	for (FVector Location : GridPoints)
 	{
 		AStaticMeshActor* GridActor = Cast<AStaticMeshActor>(GEditor->AddActor(
