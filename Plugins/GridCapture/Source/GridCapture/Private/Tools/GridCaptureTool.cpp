@@ -26,7 +26,6 @@ UGridCaptureToolProperties::UGridCaptureToolProperties()
 	// cm
 	GridSize = 0;
 
-	CaptureButton = NewObject<UButton>();
 }
 
 
@@ -47,6 +46,8 @@ void UGridCaptureTool::Setup()
 
 	Properties = NewObject<UGridCaptureToolProperties>(this);
 	AddToolPropertySource(Properties);
+
+	Properties->CaptureStartEvent.AddDynamic(this, &UGridCaptureTool::Capture);
 }
 
 
@@ -71,10 +72,6 @@ void UGridCaptureTool::OnClicked(const FInputDeviceRay& ClickPos)
 
 void UGridCaptureTool::OnPropertyModified(UObject* PropertySet, FProperty* Property)
 {
-	if (Property->GetName() == "GridSize")
-	{
-		Properties->CaptureButton->OnClicked.AddDynamic(this, &UGridCaptureTool::Capture);
-	}
 }
 
 void UGridCaptureTool::GenerateGridPoints()

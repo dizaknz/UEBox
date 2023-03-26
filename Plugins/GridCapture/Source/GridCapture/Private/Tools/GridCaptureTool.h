@@ -6,6 +6,8 @@
 #include "BaseTools/SingleClickTool.h"
 #include "GridCaptureTool.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCaptureStartEvent);
+
 UCLASS()
 class GRIDCAPTURE_API UGridCaptureToolBuilder : public UInteractiveToolBuilder
 {
@@ -30,8 +32,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
 	int32 GridSize;
 
-	UPROPERTY(VisibleAnywhere, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
-	class UButton* CaptureButton;
+	UPROPERTY()
+	FCaptureStartEvent CaptureStartEvent;
+
+	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
+	void Capture() {
+		CaptureStartEvent.Broadcast();
+	}
+
 };
 
 
