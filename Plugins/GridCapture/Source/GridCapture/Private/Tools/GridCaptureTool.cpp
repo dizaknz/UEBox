@@ -24,7 +24,7 @@ UInteractiveTool* UGridCaptureToolBuilder::BuildTool(const FToolBuilderState& Sc
 UGridCaptureToolProperties::UGridCaptureToolProperties()
 {
 	// cm
-	GridSize = 0;
+	GridSize = 150;
 
 }
 
@@ -128,35 +128,35 @@ void UGridCaptureTool::GenerateGridPoints()
 	{
 		check(NavSystem);
 	}
-	for (int XY = 0; XY < (NumGridX * NumGridY); XY++)
-	{
-		int X = XY % NumGridX;
-		int Y = XY % NumGridY;
-
-		UE_LOG(LogTemp, Log, TEXT("XY=%d X=%d Y=%d"), XY, X, Y);
-
-		FVector GridPoint(
-			(MinX + (Properties->GridSize / 2) + (X * Properties->GridSize)),
-			(MinY + (Properties->GridSize / 2) + (Y * Properties->GridSize)),
-			0);
-
-		if (bFoundNavMesh)
+	for (int X = 0; X < NumGridX; X++)
+	{ 
+		for (int Y = 0; Y < NumGridY; Y++)
 		{
-			FNavLocation NavLocation;
-			
-			// FIXME
-			if (NavSystem->ProjectPointToNavigation(GridPoint, NavLocation, Extent))
+			UE_LOG(LogTemp, Log, TEXT("X=%d Y=%d"), X, Y);
+
+			FVector GridPoint(
+				(MinX + (Properties->GridSize / 2) + (X * Properties->GridSize)),
+				(MinY + (Properties->GridSize / 2) + (Y * Properties->GridSize)),
+				0);
+
+			if (bFoundNavMesh)
 			{
-				UE_LOG(LogTemp, Log, TEXT("Found position on navmesh: [%g, %g, %g]"), NavLocation.Location.X, NavLocation.Location.Y, NavLocation.Location.Z);
-				GridPoints.Add(NavLocation);
-			}
-			continue;
-		}
+				FNavLocation NavLocation;
 
-		// no nav mesh fall back to actors
-		if (GridPoint.X < MaxX && GridPoint.Y < MaxY)
-		{
-			GridPoints.Add(GridPoint);
+				// FIXME
+				if (NavSystem->ProjectPointToNavigation(GridPoint, NavLocation, Extent))
+				{
+					UE_LOG(LogTemp, Log, TEXT("Found position on navmesh: [%g, %g, %g]"), NavLocation.Location.X, NavLocation.Location.Y, NavLocation.Location.Z);
+					GridPoints.Add(NavLocation);
+				}
+				continue;
+			}
+
+			// no nav mesh fall back to actors
+			if (GridPoint.X < MaxX && GridPoint.Y < MaxY)
+			{
+				GridPoints.Add(GridPoint);
+			}
 		}
 	}
 
