@@ -30,7 +30,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
 	int32 GridSize;
 
-	UPROPERTY(VisibleAnywhere, Category = "Capture Options", meta = (DisplayName = "Capture on grid"))
+	UPROPERTY(VisibleAnywhere, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
 	class UButton* CaptureButton;
 };
 
@@ -49,14 +49,20 @@ public:
 
 	virtual void OnClicked(const FInputDeviceRay& ClickPos);
 
-	UFUNCTION(BlueprintCallable, Category = "Capture Grid")
+	virtual void OnPropertyModified(UObject* PropertySet, FProperty* Property) override;
+
+	UFUNCTION(BlueprintCallable, Category = "Capture")
 	void GenerateGridPoints();
+
+	UFUNCTION(BlueprintCallable, Category = "Capture")
+	void Capture();
+
 protected:
 	UPROPERTY()
 	TObjectPtr<UGridCaptureToolProperties> Properties;
 
 	UPROPERTY()
-	TArray<FIntPoint> GridPoints;
+	TArray<FVector> GridPoints;
 
 protected:
 	UWorld* TargetWorld;

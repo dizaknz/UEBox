@@ -8,6 +8,8 @@
 #include "NavMesh/NavMeshBoundsVolume.h"
 #include "Engine/StaticMeshActor.h"
 #include "GenericPlatform/GenericPlatformMath.h"
+#include "NavigationSystem.h"
+#include "Editor/EditorEngine.h"
 
 #define LOCTEXT_NAMESPACE "GridCaptureTool"
 
@@ -22,7 +24,9 @@ UInteractiveTool* UGridCaptureToolBuilder::BuildTool(const FToolBuilderState& Sc
 UGridCaptureToolProperties::UGridCaptureToolProperties()
 {
 	// cm
-	GridSize = 150;
+	GridSize = 0;
+
+	CaptureButton = NewObject<UButton>();
 }
 
 
@@ -65,8 +69,18 @@ void UGridCaptureTool::OnClicked(const FInputDeviceRay& ClickPos)
 	}
 }
 
+void UGridCaptureTool::OnPropertyModified(UObject* PropertySet, FProperty* Property)
+{
+	if (Property->GetName() == "GridSize")
+	{
+		Properties->CaptureButton->OnClicked.AddDynamic(this, &UGridCaptureTool::Capture);
+	}
+}
+
 void UGridCaptureTool::GenerateGridPoints()
 {
+	UE_LOG(LogTemp, Log, TEXT("Generating grid points"));
+
 	UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
 	check(EditorActorSubsystem);
 
@@ -100,16 +114,77 @@ void UGridCaptureTool::GenerateGridPoints()
 	}
 
 	// generate grid
-	FVector Extents = GridBounds.GetExtent();
+	FVector Extent = GridBounds.GetExtent();
 	FVector Center = GridBounds.GetCenter();
-	float MinX = Center.X - Extents.X;
-	float MaxX = Center.X + Extents.X;
-	float MinY = Center.Y - Extents.Y;
-	float MaxY = Center.Y + Extents.Y;
+	float MinX = Center.X - Extent.X;
+	float MaxX = Center.X + Extent.X;
+	float MinY = Center.Y - Extent.Y;
+	float MaxY = Center.Y + Extent.Y;
 
 	int32 NumGridX = FGenericPlatformMath::CeilToInt(MaxX - MinX);
 	int32 NumGridY = FGenericPlatformMath::CeilToInt(MaxY - MinY);
 
+	UNavigationSystemV1* NavSystem = Cast< UNavigationSystemV1>(TargetWorld->GetNavigationSystem());
+	if (bFoundNavMesh)
+	{
+		check(NavSystem);
+	}
+	for (int XY = 0; XY < (NumGridX - 1) * (NumGridY - 1); XY++)
+	{
+		int X = XY % NumGridX;
+		int Y = XY % NumGridY;
+
+		FVector GridPoint(
+			(MinX + (Properties->GridSize / 2) + (X * Properties->GridSize)),
+			(MinY + (Properties->GridSize / 2) + (Y * Properties->GridSize)),
+			0);
+
+		if (bFoundNavMesh)
+		{
+			FNavLocation NavLocation;
+			
+			// FIXME
+			if (NavSystem->ProjectPointToNavigation(GridPoint, NavLocation, Extent))
+			{
+				GridPoints.Add(NavLocation);
+			}
+			continue;
+		}
+
+		// no nav mesh fall back to actors
+		if (GridPoint.X < MaxX && GridPoint.Y < MaxY)
+		{
+			GridPoints.Add(GridPoint);
+		}
+	}
+	
+}
+
+void UGridCaptureTool::Capture()
+{
+	UE_LOG(LogTemp, Log, TEXT("Capturing on grid"));
+	GenerateGridPoints();
+
+	FVector Scale(1, 1, 1);
+	FRotator Rotator(0, 0, 0);
+	int32 ID = 0;
+	for (FVector Location : GridPoints)
+	{
+		AStaticMeshActor* GridActor = Cast<AStaticMeshActor>(GEditor->AddActor(
+			TargetWorld->GetLevel(0),
+			AStaticMeshActor::StaticClass(),
+			FTransform(Rotator, Location, Scale)));
+		FString Name = FString::Printf(TEXT("Grid_%d"), ID);
+		GridActor->Rename(*Name);
+		GridActor->SetActorLabel(*Name);
+		GEditor->EditorUpdateComponents();
+		/* TODO:
+			GridActor->GetStaticMeshComponent()->RegisterComponentWithWorld(currentWorld);
+			TargetWorld->UpdateWorldComponents(true, false);
+			GridActor->RerunConstructionScripts();
+		*/
+		ID++;
+	}
 }
 
 
