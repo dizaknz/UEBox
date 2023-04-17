@@ -102,7 +102,7 @@ void AImageCapturer::OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHI
         CachedTexture->GetSizeX() > BackBuffer->GetSizeX() ||
         CachedTexture->GetSizeY() > BackBuffer->GetSizeY())
     {
-        FRHIResourceCreateInfo Info; 
+        FRHIResourceCreateInfo Info(TEXT("CachedTexture"));
         CachedTexture = RHICreateTexture2D(
             BackBuffer->GetSizeX(),
             BackBuffer->GetSizeY(),

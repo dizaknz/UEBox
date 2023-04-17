@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{4F259661-6B0D-400E-BA7B-764CF2EC39A5}",
+	"EngineAssociation": "5.1",
 	"Category": "Demo",
 	"Description": "UE project demo",
 	"Modules": [
@@ -14,7 +14,7 @@
 		}
 	],
 	"Plugins": [
-                {
+		{
 			"Name": "ActorSequence",
 			"Enabled": false
 		},
