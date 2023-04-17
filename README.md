@@ -22,3 +22,22 @@ cmake --build . --target UEBox-Linux-Test
 ```
 
 Run editor `./editor.sh`
+
+## Package
+
+```
+<UE_DIRECTORY>/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
+    -clean \
+    -compile \
+    -cook \
+    -stage \
+    -package \
+    -pak \
+    -nop4 \
+    -ue4exe=UE4Editor-Cmd \
+    -archive \
+    -archivedirectory=Game \
+    -clientconfig=Test \
+    -targetplatform=Linux \
+    -project=UEBox.uproject
+```

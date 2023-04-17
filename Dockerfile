@@ -23,7 +23,7 @@ COPY --chown=uebox:uebox ./ ./
 RUN ./setup.sh -u ${UE_DIRECTORY}
 RUN cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Release .
 RUN cmake --build . --target UEBox-Linux-Test
-RUN ${UE_DIRECTORY}/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -clean -compile -cook -stage -package -pak -nop4 -ue4exe=UE4Editor-Cmd -archive -archivedirectory=Game -clientconfig=Test -targetplatform=Linux -project=/opt/projects/uebox/UEBox.uproject
+RUN ${UE_DIRECTORY}/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -clean -compile -cook -stage -package -pak -nop5 -ue4exe=UE4Editor-Cmd -archive -archivedirectory=/opt/projects/uebox/Packaged -clientconfig=Test -targetplatform=Linux -project=/opt/projects/uebox/UEBox.uproject
 
 FROM adamrehn/ue4-runtime:20.04-cudagl11.0
 USER root
@@ -33,4 +33,6 @@ RUN addgroup --system --gid 1000 uebox && \
     usermod -a -G audio,video,pulse,pulse-access uebox
 USER uebox
 WORKDIR /opt/uebox
-COPY --from=builder --chown=uebox:uebox /opt/projects/uebox/Game/LinuxNoEditor ./
+COPY --from=builder --chown=uebox:uebox /opt/projects/uebox/Packaged/LinuxNoEditor ./
+ENTRYPOINT /opt/uebox/UEBox.sh
+

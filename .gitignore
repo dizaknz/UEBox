@@ -58,8 +58,9 @@ Intermediate/*
 Plugins/*/Intermediate/*
 
 DerivedDataCache/*
-Content/Collections
-Content/Developers
+!Content/Game
+Content/**
+Packaged
 
 .vs*
 *.sln
