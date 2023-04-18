@@ -1,12 +1,8 @@
 .git
-.kdev4
 .vscode
 AutomatedBuild
-CMakeFiles
 Content
-DerivedDataCache
-Intermediate
-Saved
 docker
-Plugins/ImageCapture/Content
+Intermediate
+Plugins/GridCapture/Intermediate
 Plugins/ImageCapture/Intermediate

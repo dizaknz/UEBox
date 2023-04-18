@@ -61,6 +61,8 @@ DerivedDataCache/*
 !Content/Game
 Content/**
 Packaged
+Releases
 
 .vs*
 *.sln
+.uedir
