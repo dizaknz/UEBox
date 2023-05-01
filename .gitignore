@@ -46,7 +46,6 @@ build/
 
 # white list
 !Build/*/
-Build/*/**
 !Build/*/PakBlacklist*.txt
 !Build/**/*.ico
 
@@ -58,8 +57,10 @@ Intermediate/*
 Plugins/*/Intermediate/*
 
 DerivedDataCache/*
+Content/*
 !Content/Game
-Content/**
+!Content/Python
+
 Packaged
 Releases
 
