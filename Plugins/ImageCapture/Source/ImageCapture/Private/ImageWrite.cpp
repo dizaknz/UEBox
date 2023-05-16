@@ -27,5 +27,5 @@ void FImageWriterTask::DoWork(){
     const TArray64<uint8>& compressedImage = ImageWrapper->GetCompressed(0);
 
     FFileHelper::SaveArrayToFile(compressedImage, *FileName);
-    UE_LOG(LogTemp, Verbose, TEXT("Written image: %s to disk"), *FileName);
+    UE_LOG(LogImageCapturePlugin, Verbose, TEXT("Written image: %s to disk"), *FileName);
 }

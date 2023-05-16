@@ -80,7 +80,7 @@ void AImageCapturer::OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHI
         BackBuffer->GetSizeX() > CachedTexture->GetSizeX() &&
         BackBuffer->GetSizeY() > CachedTexture->GetSizeY())
     {
-        UE_LOG(LogTemp,
+        UE_LOG(LogImageCapturePlugin,
             Verbose, 
             TEXT("AImageCapturer::OnBackBufferReady - Ignoring backbuffer, size=%d, %d"),
                 BackBuffer->GetSizeX(),
@@ -156,7 +156,7 @@ void AImageCapturer::Capture(FString FileName)
         return;
     }
     FScopeLock ScopeLock(&CriticalSection);
-    UE_LOG(LogTemp,
+    UE_LOG(LogImageCapturePlugin,
         Verbose, 
         TEXT("AImageCapturer::Capture - Capturing from cached back buffer, size=%d, %d"),
         CachedTexture->GetSizeX(),
