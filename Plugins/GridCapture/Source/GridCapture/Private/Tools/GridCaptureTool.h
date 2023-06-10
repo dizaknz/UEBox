@@ -11,33 +11,33 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCaptureStartEvent);
 UCLASS()
 class GRIDCAPTURE_API UGridCaptureToolBuilder : public UInteractiveToolBuilder
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual bool CanBuildTool(const FToolBuilderState& SceneState) const override 
-	{ 
-		return true; 
-	}
-	virtual UInteractiveTool* BuildTool(const FToolBuilderState& SceneState) const override;
+    virtual bool CanBuildTool(const FToolBuilderState& SceneState) const override 
+    { 
+        return true; 
+    }
+    virtual UInteractiveTool* BuildTool(const FToolBuilderState& SceneState) const override;
 };
 
 
 UCLASS(Transient)
 class GRIDCAPTURE_API UGridCaptureToolProperties : public UInteractiveToolPropertySet
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 public:
-	UGridCaptureToolProperties();
+    UGridCaptureToolProperties();
 
-	UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
-	int32 GridSize;
+    UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
+    int32 GridSize;
 
-	FCaptureStartEvent CaptureStartEvent;
+    FCaptureStartEvent CaptureStartEvent;
 
-	UFUNCTION(BlueprintCallable, CallInEditor, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
-	void Capture() {
-		CaptureStartEvent.Broadcast();
-	}
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
+    void Capture() {
+        CaptureStartEvent.Broadcast();
+    }
 
 };
 
@@ -45,32 +45,32 @@ public:
 UCLASS()
 class GRIDCAPTURE_API UGridCaptureTool : public USingleClickTool
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UGridCaptureTool();
+    UGridCaptureTool();
 
-	virtual void SetWorld(UWorld* World);
+    virtual void SetWorld(UWorld* World);
 
-	virtual void Setup() override;
+    virtual void Setup() override;
 
-	virtual void OnClicked(const FInputDeviceRay& ClickPos);
+    virtual void OnClicked(const FInputDeviceRay& ClickPos);
 
-	virtual void OnPropertyModified(UObject* PropertySet, FProperty* Property) override;
+    virtual void OnPropertyModified(UObject* PropertySet, FProperty* Property) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Capture")
-	void GenerateGridPoints();
+    UFUNCTION(BlueprintCallable, Category = "Capture")
+    void GenerateGridPoints();
 
-	UFUNCTION(BlueprintCallable, Category = "Capture")
-	void Capture();
-
-protected:
-	UPROPERTY()
-	TObjectPtr<UGridCaptureToolProperties> Properties;
-
-	UPROPERTY()
-	TArray<FVector> GridPoints;
+    UFUNCTION(BlueprintCallable, Category = "Capture")
+    void Capture();
 
 protected:
-	UWorld* TargetWorld;
+    UPROPERTY()
+    TObjectPtr<UGridCaptureToolProperties> Properties;
+
+    UPROPERTY()
+    TArray<FVector> GridPoints;
+
+protected:
+    TObjectPtr<UWorld> TargetWorld;
 };
