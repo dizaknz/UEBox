@@ -4,6 +4,7 @@
 #include "Components/SceneComponent.h"
 #include "IImageWrapperModule.h"
 #include "IImageWrapper.h"
+#include "Log.h"
 
 #include "CaptureComponent.generated.h"
 
@@ -16,6 +17,7 @@ enum class EOutputFormat : uint8
     HDR
 };
 
+// TODO: use ImageWrite tasks
 static const TMap<EOutputFormat, FString> OutputFormatExtension = {
     { EOutputFormat::JPEG, TEXT("jpg") },
     { EOutputFormat::PNG, TEXT("png") },
@@ -23,7 +25,7 @@ static const TMap<EOutputFormat, FString> OutputFormatExtension = {
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class BOUNDARYEXPORTER_API UCaptureComponent : public USceneComponent
+class IMAGECAPTURE_API UCaptureComponent : public USceneComponent
 {
     GENERATED_BODY()
 

@@ -1,4 +1,4 @@
-#include "Capture/CaptureComponent.h"
+#include "CaptureComponent.h"
 #include "Modules/ModuleManager.h"
 #include "Misc/Paths.h"
 #include "Engine/TextureRenderTargetCube.h"
