@@ -8,6 +8,7 @@
 #include "RHICommandList.h"
 
 #include "ImageWrite.h"
+#include "Log.h"
 
 AImageCapturer::AImageCapturer()
 {

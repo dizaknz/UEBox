@@ -2,7 +2,11 @@
 .vscode
 AutomatedBuild
 Content
+DerivedDataCache
 docker
 Intermediate
+Packaged
+Releases
+Saved
 Plugins/GridCapture/Intermediate
 Plugins/ImageCapture/Intermediate

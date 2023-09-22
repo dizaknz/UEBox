@@ -23,7 +23,7 @@ static const TMap<EOutputFormat, FString> OutputFormatExtension = {
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
-class BOUNDARYEXPORTER_API UCaptureComponent : public USceneComponent
+class IMAGECAPTURE_API UCaptureComponent : public USceneComponent
 {
     GENERATED_BODY()
 

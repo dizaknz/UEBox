@@ -1,4 +1,4 @@
-#include "Capture/CaptureComponent.h"
+#include "CaptureComponent.h"
 #include "Modules/ModuleManager.h"
 #include "Misc/Paths.h"
 #include "Engine/TextureRenderTargetCube.h"
@@ -94,19 +94,25 @@ bool UCaptureComponent::Initialise(EOutputFormat Format, FString Directory)
 
     UE_LOG(LogImageCapturePlugin, Log, TEXT("Display gamma: %f"), GEngine->GetDisplayGamma());
 
+#if ENGINE_MAJOR_VERSION < 5
     RenderTargetCube->CompressionNoAlpha = false;
     RenderTargetCube->CompressionNone = true;
+#endif
     if (0)
     {
         // TODO
+#if ENGINE_MAJOR_VERSION < 5
         RenderTargetCube->CompressionNone = false;
+#endif
         RenderTargetCube->CompressionSettings = TextureCompressionSettings::TC_VectorDisplacementmap;
         if (OutputFormat == EOutputFormat::HDR)
         {
             RenderTargetCube->CompressionSettings = TextureCompressionSettings::TC_HDR;
         }
     }
+#if ENGINE_MAJOR_VERSION < 5
     RenderTargetCube->MipGenSettings = TextureMipGenSettings::TMGS_NoMipmaps;
+#endif
     RenderTargetCube->UpdateResourceImmediate(true);
     CubeCapture->TextureTarget = RenderTargetCube;
 

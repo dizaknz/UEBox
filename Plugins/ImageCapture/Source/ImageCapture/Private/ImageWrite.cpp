@@ -3,6 +3,7 @@
 #include "IImageWrapper.h"
 #include "IImageWrapperModule.h"
 #include "ImageUtils.h"
+#include "Log.h"
 
 FImageWriterTask::FImageWriterTask(TArray<FColor> Image, int Width, int Height, FString FileName)
     : Image(Image), FileName(FileName), ImageWidth(Width), ImageHeight(Height)
