@@ -4,6 +4,7 @@
 #include "Engine/TextureRenderTarget2D.h"
 #include "Kismet/GameplayStatics.h"
 #include "ShowFlags.h"
+#include "Log.h"
 
 #include "RHICommandList.h"
 

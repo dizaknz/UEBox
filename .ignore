@@ -1,12 +1,17 @@
 .git
+.vs
 .vscode
 AutomatedBuild
+build
 Content
 DerivedDataCache
 docker
+Examples
 Intermediate
 Packaged
 Releases
+Platforms
 Saved
 Plugins/GridCapture/Intermediate
+Plugins/ImageCapture/Content
 Plugins/ImageCapture/Intermediate
