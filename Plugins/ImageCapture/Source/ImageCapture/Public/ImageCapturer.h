@@ -6,7 +6,7 @@
 #include "ImageCapturer.generated.h"
 
 UCLASS()
-class AImageCapturer : public AActor
+class IMAGECAPTURE_API AImageCapturer : public AActor
 {
     GENERATED_BODY()
     
