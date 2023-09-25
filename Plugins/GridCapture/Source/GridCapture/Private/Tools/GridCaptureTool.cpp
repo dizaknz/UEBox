@@ -10,8 +10,15 @@
 #include "GenericPlatform/GenericPlatformMath.h"
 #include "NavigationSystem.h"
 #include "Editor/EditorEngine.h"
+#include "Kismet/GameplayStatics.h"
+#include "Spatial/PointHashGrid3.h"
 
 #define LOCTEXT_NAMESPACE "GridCaptureTool"
+
+FString UGridCaptureTool::ActorPrefix = "Grid-";
+
+using namespace UE::Geometry;
+using namespace UE::Math;
 
 UInteractiveTool* UGridCaptureToolBuilder::BuildTool(const FToolBuilderState& SceneState) const
 {
@@ -23,8 +30,8 @@ UInteractiveTool* UGridCaptureToolBuilder::BuildTool(const FToolBuilderState& Sc
 
 UGridCaptureToolProperties::UGridCaptureToolProperties()
 {
-    // cm
-    GridSize = 150;
+    // 10m
+    GridSize = 1000;
 
 }
 
@@ -47,7 +54,9 @@ void UGridCaptureTool::Setup()
     Properties = NewObject<UGridCaptureToolProperties>(this);
     AddToolPropertySource(Properties);
 
-    Properties->CaptureStartEvent.AddDynamic(this, &UGridCaptureTool::Capture);
+    Properties->GenerateGridEvent.AddDynamic(this, &UGridCaptureTool::Generate);
+    Properties->RemoveGridEvent.AddDynamic(this, &UGridCaptureTool::Remove);
+
 }
 
 
@@ -76,6 +85,9 @@ void UGridCaptureTool::OnPropertyModified(UObject* PropertySet, FProperty* Prope
 
 void UGridCaptureTool::GenerateGridPoints()
 {
+    TUniquePtr<UE::Geometry::TPointHashGrid3<int, float>> SpatialIndex = TUniquePtr<TPointHashGrid3<int, float>>(
+        new TPointHashGrid3<int, float>(Properties->GridSize * 10, 0));
+
     UE_LOG(LogTemp, Log, TEXT("Generating grid points"));
 
     UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
@@ -85,17 +97,19 @@ void UGridCaptureTool::GenerateGridPoints()
     GridBounds.Init();
     bool bFoundNavMesh = false;
 
+    float ZLevel = FLT_MAX;
+
     for (AActor* LevelActor : EditorActorSubsystem->GetAllLevelActors())
     {
         FVector Origin;
         FVector Extent;
-        // TODO: filter actors that are not visible
         UE_LOG(LogTemp, Log, TEXT("Level actor: %s"), *(LevelActor->GetName()));
         if (LevelActor->IsA(ANavMeshBoundsVolume::StaticClass()))
         {
             UE_LOG(LogTemp, Log, TEXT("Found nav mesh: %s"), *(LevelActor->GetName()));
             bFoundNavMesh = true;
             GridBounds = LevelActor->GetComponentsBoundingBox(true, false);
+            ZLevel = LevelActor->GetActorLocation().Z;
             break;
         }
         if (LevelActor->IsA(AStaticMeshActor::StaticClass()))
@@ -107,6 +121,10 @@ void UGridCaptureTool::GenerateGridPoints()
                 Bounds.Max.X > GridBounds.Max.X || Bounds.Max.Y > GridBounds.Max.Y)
             {
                 GridBounds += Bounds;
+            }
+            if (Bounds.Min.Z < ZLevel)
+            {
+                ZLevel = Bounds.Min.Z;
             }
         }
     }
@@ -129,6 +147,13 @@ void UGridCaptureTool::GenerateGridPoints()
     {
         check(NavSystem);
     }
+    FVector QueryPoint;
+    TFunctionRef<float (const int &)> DistanceFunc = [&](const int &Idx) { 
+        float Distance = FVector::Distance(GridPoints[Idx], QueryPoint);
+        return Distance * Distance;
+    };
+
+    int Idx = 0;
     for (int X = 0; X < NumGridX; X++)
     { 
         for (int Y = 0; Y < NumGridY; Y++)
@@ -138,22 +163,41 @@ void UGridCaptureTool::GenerateGridPoints()
             FVector GridPoint(
                 (MinX + (Properties->GridSize / 2) + (X * Properties->GridSize)),
                 (MinY + (Properties->GridSize / 2) + (Y * Properties->GridSize)),
-                0);
+                ZLevel);
 
             if (bFoundNavMesh)
             {
                 FNavLocation NavLocation;
 
-                // FIXME
+                // use spatial index to determine grid overlaps
                 if (NavSystem->ProjectPointToNavigation(GridPoint, NavLocation, Extent))
                 {
-                    UE_LOG(LogTemp, Log, TEXT("Found position on navmesh: [%g, %g, %g]"), NavLocation.Location.X, NavLocation.Location.Y, NavLocation.Location.Z);
-                    GridPoints.Add(NavLocation);
+                    UE_LOG(LogTemp, Log, TEXT("Found position on navmesh: [%g, %g, %g]"),
+                        NavLocation.Location.X,
+                        NavLocation.Location.Y,
+                        NavLocation.Location.Z);
+
+                    QueryPoint = FVector(NavLocation.Location.X, NavLocation.Location.Y, NavLocation.Location.Z);
+                    TVector<float> Pos(QueryPoint.X, QueryPoint.Y, QueryPoint.Z);
+                    TPair<int, float> Result = SpatialIndex->FindNearestInRadius(Pos, Properties->GridSize/4, DistanceFunc);
+                    if (Result.Key == 0)
+                    {
+                        GridPoints.Add(NavLocation);
+                        SpatialIndex->InsertPoint(Idx, Pos);
+                        Idx++;
+                    }
+                    else
+                    {
+                        UE_LOG(LogTemp, Warning, TEXT("Inoring position on navmesh: [%g, %g, %g]"),
+                            NavLocation.Location.X,
+                            NavLocation.Location.Y, 
+                            NavLocation.Location.Z);
+                    }
                 }
                 continue;
             }
 
-            // no nav mesh fall back to actors
+            // no nav mesh, fall back to actors
             if (GridPoint.X < MaxX && GridPoint.Y < MaxY)
             {
                 GridPoints.Add(GridPoint);
@@ -165,21 +209,14 @@ void UGridCaptureTool::GenerateGridPoints()
 
     // TODO: sort points topologically FDirectedGraphAlgo
 
-    /* iterate through rows
-        - filter points in same cell, closed to center wins
-        - connect neighbours
-
-        4 5         6
-        |           |   
-        1 <-> 2 <-> 3
-    
-    */
-    
 }
 
-void UGridCaptureTool::Capture()
+void UGridCaptureTool::Generate()
 {
-    UE_LOG(LogTemp, Log, TEXT("Capturing on grid"));
+    Remove();
+
+    FScopeLock ScopeLock(&Mutex);
+    UE_LOG(LogTemp, Log, TEXT("Generating grid"));
     GenerateGridPoints();
 
     FVector Scale(1, 1, 1);
@@ -191,19 +228,47 @@ void UGridCaptureTool::Capture()
         AStaticMeshActor* GridActor = Cast<AStaticMeshActor>(GEditor->AddActor(
             TargetWorld->GetLevel(0),
             AStaticMeshActor::StaticClass(),
-            FTransform(Rotator, Location, Scale)));
-        FString Name = FString::Printf(TEXT("Grid_%d"), ID);
+            FTransform(Rotator, Location, Scale),
+            false,
+            RF_Transient));
+        FString Name = FString::Printf(TEXT("%s%d"), *ActorPrefix, ID);
         GridActor->Rename(*Name);
         GridActor->SetActorLabel(*Name);
         GEditor->EditorUpdateComponents();
-        /* TODO:
-            GridActor->GetStaticMeshComponent()->RegisterComponentWithWorld(currentWorld);
-            TargetWorld->UpdateWorldComponents(true, false);
-            GridActor->RerunConstructionScripts();
-        */
+        GridActor->GetStaticMeshComponent()->SetStaticMesh(Properties->Mesh);
+        GridActor->GetStaticMeshComponent()->RegisterComponentWithWorld(TargetWorld);
+        TargetWorld->UpdateWorldComponents(true, false);
+        GridActor->RerunConstructionScripts();
         ID++;
     }
 }
 
+void UGridCaptureTool::Remove()
+{
+    FScopeLock ScopeLock(&Mutex);
+    TArray<AActor*> ExistingActors;
+    UGameplayStatics::GetAllActorsOfClass(TargetWorld, AStaticMeshActor::StaticClass(), ExistingActors);
+    UEditorActorSubsystem* EditorActorSubsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
+    check(EditorActorSubsystem);
+    for (AActor* ExistingActor : ExistingActors)
+    {
+        if (!ExistingActor->GetName().StartsWith(ActorPrefix))
+        {
+            continue;
+        }
+        FString Name = FString::Printf(TEXT("%s_DELETED.%f"), *(ExistingActor->GetName()), FPlatformTime::Seconds());
+        ExistingActor->Rename(*Name);
+        ExistingActor->ClearActorLabel();
+        ExistingActor->Modify();
+        TargetWorld->EditorDestroyActor(Cast<AActor>(ExistingActor), true);
+    }
+    GEditor->ForceGarbageCollection(true);
+    GEditor->PerformGarbageCollectionAndCleanupActors();
+    if (GridPoints.Num() > 0)
+    {
+        GridPoints.Empty();
+    }
+
+}
 
 #undef LOCTEXT_NAMESPACE

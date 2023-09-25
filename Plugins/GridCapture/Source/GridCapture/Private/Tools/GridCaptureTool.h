@@ -6,7 +6,8 @@
 #include "BaseTools/SingleClickTool.h"
 #include "GridCaptureTool.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCaptureStartEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGenerateGridEvent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRemoveGridEvent);
 
 UCLASS()
 class GRIDCAPTURE_API UGridCaptureToolBuilder : public UInteractiveToolBuilder
@@ -23,21 +24,30 @@ public:
 
 
 UCLASS(Transient)
+
 class GRIDCAPTURE_API UGridCaptureToolProperties : public UInteractiveToolPropertySet
 {
     GENERATED_BODY()
 public:
     UGridCaptureToolProperties();
 
-    UPROPERTY(EditAnywhere, Category = "Capture Options", meta = (ClampMin = 100, ClampMax = 200, DisplayName = "Capture Grid Size"))
+    UPROPERTY(EditAnywhere, Category = "Generate Options", meta = (DisplayName = "Grid Cell Size"))
     int32 GridSize;
 
-    FCaptureStartEvent CaptureStartEvent;
+    UPROPERTY(EditAnywhere, Category = "Generate Options", meta = (DisplayName = "Grid Actor Mesh"))
+    UStaticMesh* Mesh;
 
-    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Capture Options", meta = (DisplayName = "Start Capture on grid"))
-    void Capture() {
-        CaptureStartEvent.Broadcast();
+    FGenerateGridEvent GenerateGridEvent;
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Grid Actions", meta = (DisplayName = "Generate grid"))
+    void Generate() {
+        GenerateGridEvent.Broadcast();
     }
+    FGenerateGridEvent RemoveGridEvent;
+    UFUNCTION(BlueprintCallable, CallInEditor, Category = "Grid Actions", meta = (DisplayName = "Remove grid"))
+    void Remove() {
+        RemoveGridEvent.Broadcast();
+    }
+
 
 };
 
@@ -59,10 +69,13 @@ public:
     virtual void OnPropertyModified(UObject* PropertySet, FProperty* Property) override;
 
     UFUNCTION(BlueprintCallable, Category = "Capture")
-    void GenerateGridPoints();
+    void Generate();
 
     UFUNCTION(BlueprintCallable, Category = "Capture")
-    void Capture();
+    void Remove();
+
+private:
+    void GenerateGridPoints();
 
 protected:
     UPROPERTY()
@@ -71,6 +84,11 @@ protected:
     UPROPERTY()
     TArray<FVector> GridPoints;
 
-protected:
     TObjectPtr<UWorld> TargetWorld;
+
+    static FString ActorPrefix;
+
+private:
+    FCriticalSection Mutex;
+
 };
