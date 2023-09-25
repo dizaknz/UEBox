@@ -7,7 +7,7 @@
 #include "GridCaptureEditorModeCommands.h"
 
 
-#include "Tools/GridCaptureTool.h"
+#include "Tools/GridTool.h"
 
 #define LOCTEXT_NAMESPACE "GridCaptureEditorMode"
 
@@ -20,7 +20,7 @@ UGridCaptureEditorMode::UGridCaptureEditorMode()
 	FModuleManager::Get().LoadModule("EditorStyle");
 
 	Info = FEditorModeInfo(UGridCaptureEditorMode::EM_GridCaptureEditorModeId,
-		LOCTEXT("ModeName", "GridCapture"),
+		LOCTEXT("ModeName", "GridTool"),
 		FSlateIcon(),
 		true);
 }
@@ -41,7 +41,7 @@ void UGridCaptureEditorMode::Enter()
 
 	const FGridCaptureEditorModeCommands& ToolCommands = FGridCaptureEditorModeCommands::Get();
 
-	RegisterTool(ToolCommands.CaptureTool, CaptureToolName, NewObject<UGridCaptureToolBuilder>(this));
+	RegisterTool(ToolCommands.GridTool, CaptureToolName, NewObject<UGridToolBuilder>(this));
 
 	GetToolManager()->SelectActiveToolType(EToolSide::Left, CaptureToolName);
 }
