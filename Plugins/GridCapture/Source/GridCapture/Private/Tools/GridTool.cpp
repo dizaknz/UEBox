@@ -1,4 +1,4 @@
-#include "GridCaptureTool.h"
+#include "GridTool.h"
 #include "InteractiveToolManager.h"
 #include "ToolBuilderUtil.h"
 #include "CollisionQueryParams.h"
@@ -15,20 +15,20 @@
 
 #define LOCTEXT_NAMESPACE "GridCaptureTool"
 
-FString UGridCaptureTool::ActorPrefix = "Grid-";
+FString UGridTool::ActorPrefix = "Grid-";
 
 using namespace UE::Geometry;
 using namespace UE::Math;
 
-UInteractiveTool* UGridCaptureToolBuilder::BuildTool(const FToolBuilderState& SceneState) const
+UInteractiveTool* UGridToolBuilder::BuildTool(const FToolBuilderState& SceneState) const
 {
-    UGridCaptureTool* NewTool = NewObject<UGridCaptureTool>(SceneState.ToolManager);
+    UGridTool* NewTool = NewObject<UGridTool>(SceneState.ToolManager);
     NewTool->SetWorld(SceneState.World);
     return NewTool;
 }
 
 
-UGridCaptureToolProperties::UGridCaptureToolProperties()
+UGridToolProperties::UGridToolProperties()
 {
     // 10m
     GridSize = 1000;
@@ -36,31 +36,31 @@ UGridCaptureToolProperties::UGridCaptureToolProperties()
 }
 
 
-UGridCaptureTool::UGridCaptureTool()
+UGridTool::UGridTool()
 {
 }
 
 
-void UGridCaptureTool::SetWorld(UWorld* World)
+void UGridTool::SetWorld(UWorld* World)
 {
     this->TargetWorld = World;
 }
 
 
-void UGridCaptureTool::Setup()
+void UGridTool::Setup()
 {
     USingleClickTool::Setup();
 
-    Properties = NewObject<UGridCaptureToolProperties>(this);
+    Properties = NewObject<UGridToolProperties>(this);
     AddToolPropertySource(Properties);
 
-    Properties->GenerateGridEvent.AddDynamic(this, &UGridCaptureTool::Generate);
-    Properties->RemoveGridEvent.AddDynamic(this, &UGridCaptureTool::Remove);
+    Properties->GenerateGridEvent.AddDynamic(this, &UGridTool::Generate);
+    Properties->RemoveGridEvent.AddDynamic(this, &UGridTool::Remove);
 
 }
 
 
-void UGridCaptureTool::OnClicked(const FInputDeviceRay& ClickPos)
+void UGridTool::OnClicked(const FInputDeviceRay& ClickPos)
 {
     FVector NewActorPos = FVector::ZeroVector;
 
@@ -79,11 +79,11 @@ void UGridCaptureTool::OnClicked(const FInputDeviceRay& ClickPos)
     }
 }
 
-void UGridCaptureTool::OnPropertyModified(UObject* PropertySet, FProperty* Property)
+void UGridTool::OnPropertyModified(UObject* PropertySet, FProperty* Property)
 {
 }
 
-void UGridCaptureTool::GenerateGridPoints()
+void UGridTool::GenerateGridPoints()
 {
     TUniquePtr<UE::Geometry::TPointHashGrid3<int, float>> SpatialIndex = TUniquePtr<TPointHashGrid3<int, float>>(
         new TPointHashGrid3<int, float>(Properties->GridSize * 10, 0));
@@ -211,7 +211,7 @@ void UGridCaptureTool::GenerateGridPoints()
 
 }
 
-void UGridCaptureTool::Generate()
+void UGridTool::Generate()
 {
     Remove();
 
@@ -243,7 +243,7 @@ void UGridCaptureTool::Generate()
     }
 }
 
-void UGridCaptureTool::Remove()
+void UGridTool::Remove()
 {
     FScopeLock ScopeLock(&Mutex);
     TArray<AActor*> ExistingActors;

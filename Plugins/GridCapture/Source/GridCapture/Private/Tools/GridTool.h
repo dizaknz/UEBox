@@ -4,13 +4,13 @@
 #include "UObject/NoExportTypes.h"
 #include "InteractiveToolBuilder.h"
 #include "BaseTools/SingleClickTool.h"
-#include "GridCaptureTool.generated.h"
+#include "GridTool.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGenerateGridEvent);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FRemoveGridEvent);
 
 UCLASS()
-class GRIDCAPTURE_API UGridCaptureToolBuilder : public UInteractiveToolBuilder
+class GRIDCAPTURE_API UGridToolBuilder : public UInteractiveToolBuilder
 {
     GENERATED_BODY()
 
@@ -25,11 +25,11 @@ public:
 
 UCLASS(Transient)
 
-class GRIDCAPTURE_API UGridCaptureToolProperties : public UInteractiveToolPropertySet
+class GRIDCAPTURE_API UGridToolProperties : public UInteractiveToolPropertySet
 {
     GENERATED_BODY()
 public:
-    UGridCaptureToolProperties();
+    UGridToolProperties();
 
     UPROPERTY(EditAnywhere, Category = "Generate Options", meta = (DisplayName = "Grid Cell Size"))
     int32 GridSize;
@@ -53,12 +53,12 @@ public:
 
 
 UCLASS()
-class GRIDCAPTURE_API UGridCaptureTool : public USingleClickTool
+class GRIDCAPTURE_API UGridTool : public USingleClickTool
 {
     GENERATED_BODY()
 
 public:
-    UGridCaptureTool();
+    UGridTool();
 
     virtual void SetWorld(UWorld* World);
 
@@ -79,7 +79,7 @@ private:
 
 protected:
     UPROPERTY()
-    TObjectPtr<UGridCaptureToolProperties> Properties;
+    TObjectPtr<UGridToolProperties> Properties;
 
     UPROPERTY()
     TArray<FVector> GridPoints;
