@@ -24,9 +24,12 @@ public:
 protected:
     void RunWriterTask(TArray<FColor> Image, int ImageWidth, int ImageHeight, FString FileName);
 
-    virtual void EndPlay(const EEndPlayReason::Type endPlayReason) override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-    void OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHIRef& backBuffer);
+    void OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHIRef& BackBuffer);
+
+private:
+    void CaptureTextureFromBackBuffer(FRHICommandListImmediate& RHICmdList, const FTexture2DRHIRef& BackBuffer);
 
 private:
     TQueue<struct FWriteRequest*> WriteRequestQueue;
