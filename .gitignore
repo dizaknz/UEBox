@@ -58,6 +58,7 @@ Plugins/*/Intermediate/*
 
 DerivedDataCache/*
 Content/*
+!Content/Maps
 !Content/Game
 !Content/Python
 

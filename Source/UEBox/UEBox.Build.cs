@@ -14,7 +14,9 @@ public class UEBox : ModuleRules
 			"Engine",
 			"InputCore" ,
 			"AIModule",
-			"GameplayTasks"
+			"GameplayTasks",
+			"GameplayTags",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
