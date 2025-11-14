@@ -13,5 +13,8 @@ UCLASS()
 class UEBOX_API AUEBoxGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
 	
 };
