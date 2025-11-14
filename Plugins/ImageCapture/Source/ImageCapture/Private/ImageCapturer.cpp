@@ -65,6 +65,22 @@ struct FReadSurfaceContext{
     FReadSurfaceDataFlags Flags;
 };
 
+void AImageCapturer::CaptureTextureFromBackBuffer(FRHICommandListImmediate& RHICmdList, const FTexture2DRHIRef& BackBuffer)
+{
+    FRHIResourceCreateInfo Info(TEXT("CachedTexture"));
+    FRHITextureCreateDesc TextureCreateDesc = FRHITextureCreateDesc::Create2D(
+        TEXT("CachedTexture"),
+        BackBuffer->GetSizeX(),
+        BackBuffer->GetSizeY(),
+        BackBuffer->GetFormat());
+    TextureCreateDesc.SetNumMips(BackBuffer->GetNumMips());
+    TextureCreateDesc.SetNumSamples(BackBuffer->GetNumSamples());
+    TextureCreateDesc.SetInitialState(ERHIAccess::CPURead);
+    TextureCreateDesc.SetFlags(ETextureCreateFlags::CPUReadback);
+    CachedTexture= GDynamicRHI->RHICreateTexture_RenderThread(RHICmdList, TextureCreateDesc);
+    bIsCapturing = true;
+}
+
 /**
  * @brief OnBackBufferReady copies the backbuffer for Capture 
  * 
@@ -75,12 +91,12 @@ void AImageCapturer::OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHI
 {
     check(IsInRenderingThread());
 
+    FRHICommandListImmediate& RHICmdList = FRHICommandListExecutor::GetImmediateCommandList();
 #if WITH_EDITOR
     if (bHasCapturedMultiple && SlateWindow.GetType() != EWindowType::Normal)
     {
         return;
     }
-
     if (bHasCapturedMultiple && 
         BackBuffer->GetSizeX() > CachedTexture->GetSizeX() &&
         BackBuffer->GetSizeY() > CachedTexture->GetSizeY())
@@ -107,51 +123,21 @@ void AImageCapturer::OnBackBufferReady(SWindow& SlateWindow, const FTexture2DRHI
         CachedTexture->GetSizeX() > BackBuffer->GetSizeX() ||
         CachedTexture->GetSizeY() > BackBuffer->GetSizeY())
     {
-        FRHIResourceCreateInfo Info(TEXT("CachedTexture"));
-#if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION > 1
-        CachedTexture = CreateTexture2D(
-            BackBuffer->GetSizeX(),
-            BackBuffer->GetSizeY(),
-            BackBuffer->GetFormat(), 
-            1, 
-            1,
-            TexCreate_SRGB,
-            Info);
-
-#else
-        CachedTexture = RHICreateTexture2D(
-            BackBuffer->GetSizeX(),
-            BackBuffer->GetSizeY(),
-            BackBuffer->GetFormat(), 
-            1, 
-            1,
-            TexCreate_SRGB,
-            Info);
-#endif
-        bIsCapturing = true;
+        CaptureTextureFromBackBuffer(RHICmdList, BackBuffer);
     }
 #else
     if (CachedTexture == nullptr)
     {
-        FRHIResourceCreateInfo Info(TEXT("CachedTexture")); 
-        CachedTexture = RHICreateTexture2D(
-            BackBuffer->GetSizeX(),
-            BackBuffer->GetSizeY(),
-            BackBuffer->GetFormat(), 
-            1, 
-            1,
-            TexCreate_SRGB,
-            Info);
-
-        bIsCapturing = true;
+        CaptureTextureFromBackBuffer(RHICmdList, BackBuffer);
     }
  #endif
 
     static IRendererModule* RendererModule = &FModuleManager::GetModuleChecked<IRendererModule>("Renderer");
-    FRHICommandListImmediate& RHICmdList = FRHICommandListExecutor::GetImmediateCommandList();
-    FScopeLock ScopeLock(&CriticalSection);
-    bHasNewFrame = true;
-    RHICmdList.CopyToResolveTarget(BackBuffer, CachedTexture, FResolveParams{});
+    {
+        FScopeLock ScopeLock(&CriticalSection);
+        bHasNewFrame = true;
+        RHICmdList.CopyTexture(BackBuffer, CachedTexture, FRHICopyTextureInfo{});
+    }
 }
 
 /**
