@@ -29,6 +29,7 @@ public:
 
     float GetTraversalCost(const FIntPoint StartNodeRef, const FIntPoint EndNodeRef) const
     {
+        // TODO: implement proper weights
         return 1;
     }
 
