@@ -10,6 +10,7 @@ Makefile
 CMakeCache.txt
 CMakeFiles/
 CMakeLists.txt
+CMakePresets.json
 *.cmake
 
 *.slo
@@ -64,7 +65,10 @@ Content/*
 
 Packaged
 Releases
+Platforms
+Examples
 
 .vs*
 *.sln
 .uedir
+.aider*

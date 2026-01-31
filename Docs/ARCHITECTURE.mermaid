@@ -1,0 +1,59 @@
+classDiagram
+    class UGridCaptureEditorMode {
+        <<class>>
+    }
+    class FGridCaptureEditorModeToolkit {
+        <<class>>
+    }
+    class UGridTool {
+        <<class>>
+    }
+    class UGridToolProperties {
+        <<class>>
+    }
+    class USingleClickTool {
+        <<class>>
+    }
+    class UEdMode {
+        <<class>>
+    }
+    class FModeToolkit {
+        <<class>>
+    }
+    class UInteractiveToolPropertySet {
+        <<class>>
+    }
+    class ACaptureActor {
+        <<class>>
+    }
+    class UCaptureComponent {
+        <<class>>
+    }
+    class AWorldGrid {
+        <<class>>
+    }
+    class WorldGridGraph {
+        <<class>>
+    }
+    class ANavWalker {
+        <<class>>
+    }
+    class AActor {
+        <<class>>
+    }
+    class UObject {
+        <<class>>
+    }
+
+    UGridCaptureEditorMode --> FGridCaptureEditorModeToolkit : "has"
+    UGridTool --> UGridToolProperties : "has"
+    UGridTool --> USingleClickTool : "extends"
+    USingleClickTool --> UEdMode : "extends"
+    FGridCaptureEditorModeToolkit --> FModeToolkit : "extends"
+    UGridToolProperties --> UInteractiveToolPropertySet : "extends"
+    UEdMode --> UObject : "extends"
+    FModeToolkit --> UObject : "extends"
+    ACaptureActor --> UCaptureComponent : "has"
+    AWorldGrid --> WorldGridGraph : "has"
+    ANavWalker --> AActor : "extends"
+    AActor --> UObject : "extends"
